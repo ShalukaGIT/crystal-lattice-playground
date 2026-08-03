@@ -362,7 +362,7 @@
         let currentCentering = 'P';
         let currentCubicType = 'sc';
         let currentDirection = [1, 0, 0];
-        let showFamily = false;
+        let isShowingFamily = false;
         let familyType = '';
         let objects = [];
 
@@ -559,7 +559,7 @@
                 drawUnitCell(cellSize);
             }
             
-            if (showFamily) {
+            if (isShowingFamily) {
                 const colors = [0xcc0000, 0x000000, 0x666666, 0xcc0000, 0x000000, 0x666666];
                 let dirs = [];
                 
@@ -617,7 +617,7 @@
         // ========== UI FUNCTIONS ==========
         function showTab(tab) {
             currentTab = tab;
-            showFamily = false;
+            isShowingFamily = false;
             document.getElementById('crystal-tab').style.display = tab === 'crystal' ? 'block' : 'none';
             document.getElementById('cubic-tab').style.display = tab === 'cubic' ? 'block' : 'none';
             document.getElementById('directions-tab').style.display = tab === 'directions' ? 'block' : 'none';
@@ -673,13 +673,13 @@
 
         function setDirection(dir) {
             currentDirection = dir;
-            showFamily = false;
+            isShowingFamily = false;
             updateScene();
         }
 
         function showFamily(fam) {
             familyType = fam;
-            showFamily = true;
+            isShowingFamily = true;
             updateScene();
         }
 
