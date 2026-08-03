@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crystal Lattice Playground v3 - Directions</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <title>Crystal Lattice Playground - All Modules</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -13,6 +11,7 @@
             background: #ffffff;
             color: #000000;
             overflow: hidden;
+            height: 100vh;
         }
         #container {
             display: flex;
@@ -24,49 +23,49 @@
             background: #fafafa;
         }
         #sidebar {
-            width: 370px;
+            width: 350px;
             background: #ffffff;
             border-left: 2px solid #000000;
-            padding: 10px;
+            padding: 15px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
         }
         h1 {
-            font-size: 14px;
+            font-size: 16px;
             border-bottom: 2px solid #000000;
-            padding-bottom: 4px;
-            margin-bottom: 3px;
+            padding-bottom: 8px;
+            margin-bottom: 5px;
         }
         h2 {
-            font-size: 11px;
-            margin-top: 5px;
-            margin-bottom: 2px;
+            font-size: 13px;
+            margin-top: 10px;
+            margin-bottom: 5px;
             color: #cc0000;
         }
         .control-group {
             border: 1px solid #000000;
-            padding: 6px;
-            margin-bottom: 4px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
         .control-group label {
             display: block;
-            font-size: 9px;
-            margin-bottom: 3px;
+            font-size: 11px;
+            margin-bottom: 6px;
             font-weight: 600;
         }
         button {
             display: block;
             width: 100%;
-            padding: 5px;
-            margin-bottom: 2px;
+            padding: 8px;
+            margin-bottom: 4px;
             border: 2px solid #000000;
             background: #ffffff;
             color: #000000;
             font-weight: bold;
             cursor: pointer;
-            font-size: 9px;
+            font-size: 11px;
             transition: all 0.2s;
         }
         button:hover {
@@ -78,293 +77,205 @@
             color: #ffffff;
             border-color: #cc0000;
         }
-        .direction-btn {
-            font-size: 9px;
-            padding: 4px;
-            border: 1px solid #000000;
-        }
-        .family-btn {
-            font-size: 9px;
-            padding: 4px;
-            border: 1px solid #cc0000;
-            color: #cc0000;
-        }
-        .family-btn.active {
-            background: #cc0000;
-            color: #ffffff;
-        }
-        .toggle-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-        .toggle-row span {
-            font-size: 9px;
-        }
-        input[type="checkbox"] {
-            width: 12px;
-            height: 12px;
-            accent-color: #cc0000;
-            cursor: pointer;
-        }
-        .info-box {
-            background: #f0f0f0;
-            border: 1px solid #000000;
-            padding: 5px;
-            font-size: 8px;
-            line-height: 1.3;
-        }
-        .info-box strong {
-            color: #cc0000;
-        }
-        .calc-box {
-            background: #ffffff;
-            border: 2px solid #cc0000;
-            padding: 5px;
-            margin-top: 3px;
-        }
-        .calc-step {
-            font-size: 8px;
-            margin-bottom: 2px;
-        }
-        .highlight {
-            background: #ffcccc;
-            font-weight: bold;
-            padding: 1px 3px;
-        }
-        .notation-table {
-            width: 100%;
-            font-size: 8px;
-            border-collapse: collapse;
-            margin-top: 3px;
-        }
-        .notation-table td, .notation-table th {
-            border: 1px solid #000000;
-            padding: 2px;
-            text-align: center;
-        }
-        .notation-table th {
-            background: #000000;
-            color: #ffffff;
-        }
         .tab-container {
             display: flex;
-            gap: 2px;
-            margin-bottom: 4px;
+            gap: 3px;
+            margin-bottom: 8px;
         }
         .tab-btn {
             flex: 1;
-            padding: 4px;
-            font-size: 8px;
+            padding: 6px;
+            font-size: 10px;
             border: 1px solid #000000;
         }
         .tab-btn.active {
             background: #cc0000;
             color: #ffffff;
         }
-        #axis-labels {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            font-size: 10px;
-            font-weight: bold;
-            background: rgba(255,255,255,0.9);
-            padding: 5px;
-            border: 2px solid #000000;
-        }
-        .input-group {
-            display: flex;
-            gap: 2px;
-            margin-bottom: 3px;
-        }
-        .input-group input {
-            width: 50px;
-            font-size: 10px;
-            text-align: center;
+        .info-box {
+            background: #f0f0f0;
             border: 1px solid #000000;
-            padding: 2px;
+            padding: 8px;
+            font-size: 10px;
+            line-height: 1.4;
         }
-        .input-group span {
-            font-size: 9px;
-            align-self: center;
+        .info-box strong {
+            color: #cc0000;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
     <div id="container">
         <div id="canvas-container">
-            <div id="axis-labels">
-                <span style="color:#cc0000">━</span> Direction &nbsp;
-                <span style="color:#000000">●</span> Atom &nbsp;
-                <span style="color:#666666">━</span> Cell Edge
-            </div>
+            <canvas id="canvas"></canvas>
         </div>
         <div id="sidebar">
             <h1>🔬 CRYSTAL LATTICE PLAYGROUND</h1>
             
             <div class="tab-container">
-                <button class="tab-btn active" onclick="showTab('crystal')">Systems</button>
+                <button class="tab-btn active" onclick="showTab('systems')">Systems</button>
                 <button class="tab-btn" onclick="showTab('cubic')">Cubic</button>
                 <button class="tab-btn" onclick="showTab('directions')">Directions</button>
+                <button class="tab-btn" onclick="showTab('planes')">Planes</button>
             </div>
 
-            <!-- CRYSTAL SYSTEMS TAB -->
-            <div id="crystal-tab" style="display:block">
+            <!-- SYSTEMS TAB -->
+            <div id="systems-tab">
                 <div class="control-group">
                     <label>1. CRYSTAL SYSTEM</label>
-                    <button onclick="setCrystalSystem('cubic')">1. Cubic (a=b=c, 90°)</button>
-                    <button onclick="setCrystalSystem('tetragonal')">2. Tetragonal (a=b≠c, 90°)</button>
-                    <button onclick="setCrystalSystem('orthorhombic')">3. Orthorhombic (a≠b≠c, 90°)</button>
-                    <button onclick="setCrystalSystem('rhombohedral')">4. Rhombohedral (a=b=c, ≠90°)</button>
-                    <button onclick="setCrystalSystem('hexagonal')">5. Hexagonal (a=b≠c, γ=120°)</button>
-                    <button onclick="setCrystalSystem('monoclinic')">6. Monoclinic (a≠b≠c, β≠90°)</button>
-                    <button onclick="setCrystalSystem('triclinic')">7. Triclinic (all different)</button>
+                    <button onclick="setSystem('cubic')">1. Cubic (a=b=c, 90°)</button>
+                    <button onclick="setSystem('tetragonal')">2. Tetragonal (a=b≠c, 90°)</button>
+                    <button onclick="setSystem('orthorhombic')">3. Orthorhombic (a≠b≠c, 90°)</button>
+                    <button onclick="setSystem('rhombohedral')">4. Rhombohedral (a=b=c, ≠90°)</button>
+                    <button onclick="setSystem('hexagonal')">5. Hexagonal (a=b≠c, γ=120°)</button>
+                    <button onclick="setSystem('monoclinic')">6. Monoclinic (a≠b≠c, β≠90°)</button>
+                    <button onclick="setSystem('triclinic')">7. Triclinic (all different)</button>
                 </div>
 
                 <div class="control-group">
                     <label>2. BRAVAIS CENTERING</label>
-                    <button onclick="setCentering('P')">P (Primitive)</button>
-                    <button onclick="setCentering('I')">I (Body-Centered)</button>
-                    <button onclick="setCentering('F')">F (Face-Centered)</button>
-                    <button onclick="setCentering('C')">C (Base-Centered)</button>
+                    <button id="btn-P" onclick="setCentering('P')">P (Primitive)</button>
+                    <button id="btn-I" onclick="setCentering('I')">I (Body-Centered)</button>
+                    <button id="btn-F" onclick="setCentering('F')">F (Face-Centered)</button>
+                    <button id="btn-C" onclick="setCentering('C')">C (Base-Centered)</button>
                 </div>
 
                 <div class="info-box">
-                    <strong>Current: <span id="current-system">Cubic</span> + <span id="current-centering">P</span></strong><br>
-                    Bravais: <span id="bravais-name">Simple Cubic</span><br>
-                    Atoms/Cell: <span id="atoms-per-cell">1</span>
+                    <strong>Current: <span id="sys-name">Cubic</span> + <span id="ctr-name">P</span></strong><br>
+                    a,b,c: <span id="sys-abc">2,2,2</span><br>
+                    α,β,γ: <span id="sys-ang">90°,90°,90°</span><br>
+                    Bravais: <span id="sys-bravais">Simple Cubic</span><br>
+                    Atoms/Cell: <span id="sys-atoms">1</span>
                 </div>
             </div>
 
-            <!-- CUBIC ANALYSIS TAB -->
+            <!-- CUBIC TAB -->
             <div id="cubic-tab" style="display:none">
                 <div class="control-group">
                     <label>1. CUBIC TYPE</label>
-                    <button onclick="setCubicType('sc')">Simple Cubic (1 atom)</button>
-                    <button onclick="setCubicType('bcc')">Body-Centered (2 atoms)</button>
-                    <button onclick="setCubicType('fcc')">Face-Centered (4 atoms)</button>
+                    <button onclick="setCubic('sc')">Simple Cubic (SC)</button>
+                    <button onclick="setCubic('bcc')">Body-Centered (BCC)</button>
+                    <button onclick="setCubic('fcc')">Face-Centered (FCC)</button>
                 </div>
 
                 <div class="control-group">
                     <label>2. OPTIONS</label>
-                    <div class="toggle-row">
-                        <span>Space-Filling</span>
-                        <input type="checkbox" id="space-filling" onchange="updateScene()">
-                    </div>
-                    <div class="toggle-row">
-                        <span>Show Sharing</span>
-                        <input type="checkbox" id="show-sharing" onchange="updateScene()">
-                    </div>
+                    <button onclick="toggleOption('sharing')">Toggle Sharing Labels</button>
+                    <button onclick="toggleOption('multi')">Toggle 2×2×2 Grid</button>
                 </div>
 
                 <div class="info-box">
                     <strong>Atom Counting:</strong><br>
                     Corners: 8 × 1/8 = 1<br>
-                    Faces: <span id="cubic-faces">0</span> × 1/2 = <span id="cubic-face-total">0</span><br>
-                    Body: <span id="cubic-body">0</span> × 1 = <span id="cubic-body-total">0</span><br>
-                    <strong>TOTAL: <span id="cubic-total">1</span> atom/cell</strong>
+                    Faces: <span id="c-faces">0</span> × 1/2 = <span id="c-ft">0</span><br>
+                    Body: <span id="c-body">0</span> × 1 = <span id="c-bt">0</span><br>
+                    <strong>TOTAL: <span id="c-total">1</span></strong>
                 </div>
             </div>
 
             <!-- DIRECTIONS TAB -->
             <div id="directions-tab" style="display:none">
                 <div class="control-group">
-                    <label>1. DIRECTION PRESETS</label>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
-                        <button class="direction-btn" onclick="setDirection([1,0,0])">[100]</button>
-                        <button class="direction-btn" onclick="setDirection([0,1,0])">[010]</button>
-                        <button class="direction-btn" onclick="setDirection([0,0,1])">[001]</button>
-                        <button class="direction-btn" onclick="setDirection([1,1,0])">[110]</button>
-                        <button class="direction-btn" onclick="setDirection([1,1,1])">[111]</button>
-                        <button class="direction-btn" onclick="setDirection([1,-1,0])">[1̄10]</button>
-                        <button class="direction-btn" onclick="setDirection([-1,1,0])">[1̄10]</button>
-                        <button class="direction-btn" onclick="setDirection([2,1,2])">[212]</button>
-                    </div>
+                    <label>1. PRESET DIRECTIONS</label>
+                    <button onclick="setDir([1,0,0])">[100] - along X</button>
+                    <button onclick="setDir([0,1,0])">[010] - along Y</button>
+                    <button onclick="setDir([0,0,1])">[001] - along Z</button>
+                    <button onclick="setDir([1,1,0])">[110] - face diagonal</button>
+                    <button onclick="setDir([1,1,1])">[111] - body diagonal</button>
+                    <button onclick="setDir([1,-1,0])">[1̄10] - with negative</button>
                 </div>
 
                 <div class="control-group">
                     <label>2. DIRECTION FAMILIES</label>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
-                        <button class="family-btn" onclick="showFamily('100')">⟨100⟩</button>
-                        <button class="family-btn" onclick="showFamily('110')">⟨110⟩</button>
-                        <button class="family-btn" onclick="showFamily('111')">⟨111⟩</button>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label>3. CUSTOM DIRECTION</label>
-                    <div class="input-group">
-                        <span>[</span>
-                        <input type="text" id="dir-u" placeholder="u" value="1">
-                        <input type="text" id="dir-v" placeholder="v" value="0">
-                        <input type="text" id="dir-w" placeholder="w" value="0">
-                        <span>]</span>
-                    </div>
-                    <button onclick="setCustomDirection()">Draw [uvw]</button>
-                </div>
-
-                <div class="control-group">
-                    <label>4. OPTIONS</label>
-                    <div class="toggle-row">
-                        <span>Show Tail→Head Labels</span>
-                        <input type="checkbox" id="show-labels" checked onchange="updateScene()">
-                    </div>
-                    <div class="toggle-row">
-                        <span>Show Unit Cell</span>
-                        <input type="checkbox" id="show-cell" checked onchange="updateScene()">
-                    </div>
-                </div>
-
-                <div class="calc-box">
-                    <strong>How to Find [uvw]:</strong><br>
-                    <div class="calc-step">1. Identify <strong>Head</strong> (x₂,y₂,z₂) and <strong>Tail</strong> (x₁,y₁,z₁)</div>
-                    <div class="calc-step">2. Calculate: <span class="highlight">Head − Tail</span></div>
-                    <div class="calc-step">3. Clear fractions to smallest integers</div>
-                    <div class="calc-step">4. Enclose in <strong>square brackets [uvw]</strong></div>
-                </div>
-
-                <div class="calc-box">
-                    <strong>Current Direction: <span id="current-dir">[100]</span></strong><br>
-                    <div class="calc-step">Tail: <span id="dir-tail">(0,0,0)</span></div>
-                    <div class="calc-step">Head: <span id="dir-head">(1,0,0)</span></div>
-                    <div class="calc-step">Calculation: <span id="dir-calc">(1−0, 0−0, 0−0)</span></div>
-                    <div class="calc-step">Result: <span class="highlight" id="dir-result">[100]</span></div>
+                    <button onclick="showFam('100')">⟨100⟩ family (6 dirs)</button>
+                    <button onclick="showFam('110')">⟨110⟩ family (12 dirs)</button>
+                    <button onclick="showFam('111')">⟨111⟩ family (8 dirs)</button>
                 </div>
 
                 <div class="info-box">
-                    <strong>Notation Summary:</strong>
-                    <table class="notation-table">
-                        <tr><th>Entity</th><th>Brackets</th><th>Example</th></tr>
-                        <tr><td>Point</td><td>(u,v,w)</td><td>(½,0,½)</td></tr>
-                        <tr><td>Direction</td><td>[uvw]</td><td>[110]</td></tr>
-                        <tr><td>Dir. Family</td><td>⟨uvw⟩</td><td>⟨100⟩</td></tr>
-                        <tr><td>Plane</td><td>(hkl)</td><td>(111)</td></tr>
-                        <tr><td>Negative</td><td>n̄ (overbar)</td><td>[1̄10]</td></tr>
-                    </table>
+                    <strong>Current: <span id="dir-current">[100]</span></strong><br>
+                    Tail: (0,0,0)<br>
+                    Head: <span id="dir-head">(1,0,0)</span><br>
+                    <span class="highlight">Head − Tail = <span id="dir-result">[100]</span></span>
+                </div>
+            </div>
+
+            <!-- PLANES TAB -->
+            <div id="planes-tab" style="display:none">
+                <div class="control-group">
+                    <label>1. MILLER PLANES</label>
+                    <button onclick="setPlane('100')">(100) - yz face</button>
+                    <button onclick="setPlane('110')">(110) - diagonal</button>
+                    <button onclick="setPlane('111')">(111) - triangular</button>
                 </div>
 
                 <div class="info-box">
-                    <strong>⚠️ Watch-outs:</strong><br>
-                    • Always <strong>Head − Tail</strong>, never reverse!<br>
-                    • Negative = <strong>overbar</strong> (1̄), not minus sign<br>
-                    • [uvw] = direction, (hkl) = plane<br>
-                    • Families ⟨uvw⟩ show symmetry-equivalent directions
+                    <strong>Current Plane: <span id="plane-current">(100)</span></strong><br>
+                    Intercepts: x=1, y=∞, z=∞<br>
+                    Reciprocals: 1, 0, 0<br>
+                    <span class="highlight">Miller Index: (100)</span>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let scene, camera, renderer, controls;
-        let currentTab = 'crystal';
+        // ========== CANVAS 2D DRAWING (No Three.js needed!) ==========
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let scale = 80;
+        let offsetX, offsetY;
+        let rotation = 0.3;
+        let tilt = 0.3;
+
+        function resize() {
+            const container = document.getElementById('canvas-container');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            width = canvas.width;
+            height = canvas.height;
+            offsetX = width / 2;
+            offsetY = height / 2;
+            draw();
+        }
+
+        // 3D to 2D projection
+        function project(x, y, z) {
+            const cosR = Math.cos(rotation);
+            const sinR = Math.sin(rotation);
+            const cosT = Math.cos(tilt);
+            const sinT = Math.sin(tilt);
+            
+            // Rotate around Y
+            const x1 = x * cosR - z * sinR;
+            const z1 = x * sinR + z * cosR;
+            
+            // Rotate around X (tilt)
+            const y2 = y * cosT - z1 * sinT;
+            const z2 = y * sinT + z1 * cosT;
+            
+            return {
+                x: offsetX + x1 * scale,
+                y: offsetY - y2 * scale
+            };
+        }
+
+        // ========== STATE ==========
         let currentSystem = 'cubic';
         let currentCentering = 'P';
-        let currentCubicType = 'sc';
-        let currentDirection = [1, 0, 0];
-        let isShowingFamily = false;
-        let familyType = '';
-        let objects = [];
+        let currentCubic = 'sc';
+        let currentDir = [1, 0, 0];
+        let showFamily = false;
+        let familyName = '';
+        let currentPlane = '';
+        let showSharingLabels = false;
+        let showMultiCell = false;
 
         const systems = {
             cubic: { a: 2, b: 2, c: 2, alpha: 90, beta: 90, gamma: 90, name: 'Cubic' },
@@ -376,7 +287,7 @@
             triclinic: { a: 2, b: 2.5, c: 3, alpha: 80, beta: 100, gamma: 70, name: 'Triclinic' }
         };
 
-        const validBravais = {
+        const validCentering = {
             cubic: ['P', 'I', 'F'],
             tetragonal: ['P', 'I'],
             orthorhombic: ['P', 'I', 'F', 'C'],
@@ -386,321 +297,356 @@
             hexagonal: ['P']
         };
 
-        function init() {
-            const container = document.getElementById('canvas-container');
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xfafafa);
-
-            camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 100);
-            camera.position.set(5, 4, 6);
-
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-            scene.add(ambientLight);
+        // ========== DRAWING FUNCTIONS ==========
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#fafafa';
+            ctx.fillRect(0, 0, width, height);
             
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            directionalLight.position.set(5, 10, 7);
-            scene.add(directionalLight);
-
-            updateScene();
-            animate();
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
-        }
-
-        function clearScene() {
-            objects.forEach(obj => scene.remove(obj));
-            objects = [];
-        }
-
-        function toRad(deg) { return deg * Math.PI / 180; }
-
-        function createAtom(pos, color, radius) {
-            const geometry = new THREE.SphereGeometry(radius, 16, 16);
-            const material = new THREE.MeshPhongMaterial({ color: color });
-            const sphere = new THREE.Mesh(geometry, material);
-            sphere.position.copy(pos);
-            scene.add(sphere);
-            objects.push(sphere);
-        }
-
-        function createLine(p1, p2, color, width = 2) {
-            const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
-            const material = new THREE.LineBasicMaterial({ color: color, linewidth: width });
-            const line = new THREE.Line(geometry, material);
-            scene.add(line);
-            objects.push(line);
-        }
-
-        function createArrow(from, to, color) {
-            // Line
-            createLine(from, to, color, 3);
-            
-            // Arrowhead
-            const dir = new THREE.Vector3().subVectors(to, from).normalize();
-            const arrowPos = new THREE.Vector3().copy(to).addScaledVector(dir, -0.15);
-            const geometry = new THREE.ConeGeometry(0.08, 0.2, 8);
-            const material = new THREE.MeshPhongMaterial({ color: color });
-            const cone = new THREE.Mesh(geometry, material);
-            cone.position.copy(arrowPos);
-            cone.lookAt(to);
-            cone.rotateX(Math.PI / 2);
-            scene.add(cone);
-            objects.push(cone);
-        }
-
-        function createLabel(text, pos, size = 0.4) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 128;
-            canvas.height = 64;
-            ctx.fillStyle = '#000000';
-            ctx.font = 'bold 24px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(text, 64, 40);
-            
-            const texture = new THREE.CanvasTexture(canvas);
-            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
-            sprite.position.copy(pos);
-            sprite.scale.set(size, size * 0.5, 1);
-            scene.add(sprite);
-            objects.push(sprite);
-        }
-
-        // ========== DRAW FUNCTIONS ==========
-        function drawUnitCell(cellSize = 2) {
-            const hs = cellSize / 2;
-            const vertices = [
-                new THREE.Vector3(-hs, -hs, -hs), new THREE.Vector3(hs, -hs, -hs),
-                new THREE.Vector3(hs, hs, -hs), new THREE.Vector3(-hs, hs, -hs),
-                new THREE.Vector3(-hs, -hs, hs), new THREE.Vector3(hs, -hs, hs),
-                new THREE.Vector3(hs, hs, hs), new THREE.Vector3(-hs, hs, hs)
-            ];
-            const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
-            edges.forEach(e => createLine(vertices[e[0]], vertices[e[1]], 0x666666, 1));
-            
-            // Axis labels
-            createLabel('X', new THREE.Vector3(hs + 0.3, -hs, -hs), 0.3);
-            createLabel('Y', new THREE.Vector3(-hs, hs + 0.3, -hs), 0.3);
-            createLabel('Z', new THREE.Vector3(-hs, -hs, hs + 0.3), 0.3);
-        }
-
-        function drawDirection(dir, color = 0xcc0000, label = '') {
-            const cellSize = 2;
-            const hs = cellSize / 2;
-            const maxVal = Math.max(Math.abs(dir[0]), Math.abs(dir[1]), Math.abs(dir[2]), 1);
-            const scale = (hs * 0.8) / maxVal;
-            
-            const from = new THREE.Vector3(-hs * 0.3, -hs * 0.3, -hs * 0.3);
-            const to = new THREE.Vector3(
-                from.x + dir[0] * scale,
-                from.y + dir[1] * scale,
-                from.z + dir[2] * scale
-            );
-            
-            createArrow(from, to, color);
-            
-            if (label && document.getElementById('show-labels')?.checked) {
-                createLabel(label, new THREE.Vector3(to.x + 0.2, to.y + 0.2, to.z), 0.35);
+            if (document.getElementById('directions-tab').style.display !== 'none') {
+                drawDirections();
+            } else if (document.getElementById('planes-tab').style.display !== 'none') {
+                drawPlanes();
+            } else {
+                drawCrystal();
             }
-            
-            return { from, to };
         }
 
-        function drawCrystalScene() {
+        function drawCrystal() {
             const sys = systems[currentSystem];
-            const vecs = {
-                ax: new THREE.Vector3(sys.a, 0, 0),
-                ay: new THREE.Vector3(sys.b * Math.cos(toRad(sys.gamma)), sys.b * Math.sin(toRad(sys.gamma)), 0),
-                az: new THREE.Vector3(0, 0, sys.c)
-            };
+            const cellSize = 1.5;
             
-            // Simplified for display
-            drawUnitCell(sys.a);
-        }
-
-        function drawCubicScene() {
-            const cellSize = 2.5;
-            const showSpace = document.getElementById('space-filling')?.checked;
-            const radius = showSpace ? 0.4 : 0.15;
+            // Draw unit cell edges
+            ctx.strokeStyle = '#666666';
+            ctx.lineWidth = 2;
             
-            drawUnitCell(cellSize);
+            const corners = [
+                [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
+                [-1,-1,1], [1,-1,1], [1,1,1], [-1,1,1]
+            ];
             
-            const hs = cellSize / 2;
-            const corners = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
-            
-            corners.forEach(c => {
-                createAtom(new THREE.Vector3(c[0]*hs, c[1]*hs, c[2]*hs), 0xcc0000, radius);
+            // Draw edges
+            const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+            edges.forEach(e => {
+                const p1 = project(corners[e[0]][0]*cellSize, corners[e[0]][1]*cellSize, corners[e[0]][2]*cellSize);
+                const p2 = project(corners[e[1]][0]*cellSize, corners[e[1]][1]*cellSize, corners[e[1]][2]*cellSize);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
             });
             
-            if (currentCubicType === 'bcc') {
-                createAtom(new THREE.Vector3(0, 0, 0), 0x000000, radius);
-            } else if (currentCubicType === 'fcc') {
-                [[0,0,1],[0,0,-1],[0,1,0],[0,-1,0],[1,0,0],[-1,0,0]].forEach(f => {
-                    createAtom(new THREE.Vector3(f[0]*hs, f[1]*hs, f[2]*hs), 0x000000, radius);
-                });
+            // Draw atoms
+            const centering = currentCentering;
+            const atoms = [];
+            
+            // Corners
+            corners.forEach(c => atoms.push({x: c[0]*cellSize, y: c[1]*cellSize, z: c[2]*cellSize, type: 'corner'}));
+            
+            if (centering === 'I') {
+                atoms.push({x: 0, y: 0, z: 0, type: 'body'});
+            } else if (centering === 'F') {
+                atoms.push(
+                    {x: 0, y: 0, z: cellSize, type: 'face'},
+                    {x: 0, y: 0, z: -cellSize, type: 'face'},
+                    {x: 0, y: cellSize, z: 0, type: 'face'},
+                    {x: 0, y: -cellSize, z: 0, type: 'face'},
+                    {x: cellSize, y: 0, z: 0, type: 'face'},
+                    {x: -cellSize, y: 0, z: 0, type: 'face'}
+                );
+            } else if (centering === 'C') {
+                atoms.push(
+                    {x: 0, y: 0, z: cellSize, type: 'base'},
+                    {x: 0, y: 0, z: -cellSize, type: 'base'}
+                );
             }
+            
+            atoms.forEach(atom => {
+                const p = project(atom.x, atom.y, atom.z);
+                const radius = atom.type === 'corner' ? 8 : 12;
+                const color = atom.type === 'body' || atom.type === 'face' || atom.type === 'base' ? '#000000' : '#cc0000';
+                
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // White border
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
         }
 
-        function drawDirectionsScene() {
-            const cellSize = 2.5;
+        function drawDirections() {
+            const cellSize = 1.5;
             
-            if (document.getElementById('show-cell')?.checked) {
-                drawUnitCell(cellSize);
-            }
+            // Draw unit cell
+            ctx.strokeStyle = '#666666';
+            ctx.lineWidth = 2;
+            const corners = [
+                [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
+                [-1,-1,1], [1,-1,1], [1,1,1], [-1,1,1]
+            ];
+            const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+            edges.forEach(e => {
+                const p1 = project(corners[e[0]][0]*cellSize, corners[e[0]][1]*cellSize, corners[e[0]][2]*cellSize);
+                const p2 = project(corners[e[1]][0]*cellSize, corners[e[1]][1]*cellSize, corners[e[1]][2]*cellSize);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+            });
             
-            if (isShowingFamily) {
-                const colors = [0xcc0000, 0x000000, 0x666666, 0xcc0000, 0x000000, 0x666666];
+            // Draw directions
+            if (showFamily) {
                 let dirs = [];
-                
-                if (familyType === '100') {
+                if (familyName === '100') {
                     dirs = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
-                } else if (familyType === '110') {
+                } else if (familyName === '110') {
                     dirs = [[1,1,0],[1,-1,0],[-1,1,0],[-1,-1,0],[1,0,1],[1,0,-1],[-1,0,1],[-1,0,-1],[0,1,1],[0,1,-1],[0,-1,1],[0,-1,-1]];
-                } else if (familyType === '111') {
+                } else if (familyName === '111') {
                     dirs = [[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]];
                 }
                 
+                const colors = ['#cc0000', '#000000', '#666666'];
                 dirs.forEach((dir, i) => {
-                    const color = colors[i % colors.length];
-                    const label = `[${dir[0]}${dir[1]}${dir[2]}]`;
-                    drawDirection(dir, color, label);
+                    drawArrow(dir, colors[i % 3], 0.6);
                 });
             } else {
-                const dir = currentDirection;
-                const label = `[${dir[0]}${dir[1]}${dir[2]}]`;
-                drawDirection(dir, 0xcc0000, label);
-                
-                // Update calculation display
-                updateDirectionCalc(dir);
+                drawArrow(currentDir, '#cc0000', 1.0);
             }
         }
 
-        function updateDirectionCalc(dir) {
-            const tail = [0, 0, 0];
-            const head = dir;
+        function drawArrow(dir, color, alpha) {
+            const scale2 = 1.2;
+            const from = project(-0.3, -0.3, -0.3);
+            const to = project(
+                dir[0] * scale2,
+                dir[1] * scale2,
+                dir[2] * scale2
+            );
             
-            document.getElementById('current-dir').textContent = 
-                `[${dir[0]}${dir[1]}${dir[2]}]`;
-            document.getElementById('dir-tail').textContent = 
-                `(${tail[0]},${tail[1]},${tail[2]})`;
-            document.getElementById('dir-head').textContent = 
-                `(${head[0]},${head[1]},${head[2]})`;
-            document.getElementById('dir-calc').textContent = 
-                `(${head[0]}−${tail[0]}, ${head[1]}−${tail[1]}, ${head[2]}−${tail[2]})`;
-            document.getElementById('dir-result').textContent = 
-                `[${dir[0]}${dir[1]}${dir[2]}]`;
+            ctx.globalAlpha = alpha;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(from.x, from.y);
+            ctx.lineTo(to.x, to.y);
+            ctx.stroke();
+            
+            // Arrowhead
+            const angle = Math.atan2(to.y - from.y, to.x - from.x);
+            const headLen = 12;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(to.x, to.y);
+            ctx.lineTo(to.x - headLen * Math.cos(angle - Math.PI/6), to.y - headLen * Math.sin(angle - Math.PI/6));
+            ctx.lineTo(to.x - headLen * Math.cos(angle + Math.PI/6), to.y - headLen * Math.sin(angle + Math.PI/6));
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.globalAlpha = 1.0;
         }
 
-        function updateScene() {
-            clearScene();
+        function drawPlanes() {
+            const cellSize = 1.5;
             
-            if (currentTab === 'crystal') {
-                drawCrystalScene();
-            } else if (currentTab === 'cubic') {
-                drawCubicScene();
-            } else if (currentTab === 'directions') {
-                drawDirectionsScene();
+            // Draw cell
+            ctx.strokeStyle = '#666666';
+            ctx.lineWidth = 2;
+            const corners = [
+                [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
+                [-1,-1,1], [1,-1,1], [1,1,1], [-1,1,1]
+            ];
+            const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+            edges.forEach(e => {
+                const p1 = project(corners[e[0]][0]*cellSize, corners[e[0]][1]*cellSize, corners[e[0]][2]*cellSize);
+                const p2 = project(corners[e[1]][0]*cellSize, corners[e[1]][1]*cellSize, corners[e[1]][2]*cellSize);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+            });
+            
+            // Draw plane
+            ctx.fillStyle = 'rgba(204, 0, 0, 0.3)';
+            ctx.strokeStyle = '#cc0000';
+            ctx.lineWidth = 3;
+            
+            if (currentPlane === '100') {
+                // yz plane at x=1
+                const p1 = project(cellSize, -cellSize, -cellSize);
+                const p2 = project(cellSize, cellSize, -cellSize);
+                const p3 = project(cellSize, cellSize, cellSize);
+                const p4 = project(cellSize, -cellSize, cellSize);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.lineTo(p3.x, p3.y);
+                ctx.lineTo(p4.x, p4.y);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            } else if (currentPlane === '110') {
+                // Diagonal plane
+                const p1 = project(cellSize, -cellSize, -cellSize);
+                const p2 = project(-cellSize, cellSize, -cellSize);
+                const p3 = project(-cellSize, cellSize, cellSize);
+                const p4 = project(cellSize, -cellSize, cellSize);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.lineTo(p3.x, p3.y);
+                ctx.lineTo(p4.x, p4.y);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            } else if (currentPlane === '111') {
+                // Triangular plane
+                const p1 = project(cellSize, -cellSize, -cellSize);
+                const p2 = project(-cellSize, cellSize, -cellSize);
+                const p3 = project(-cellSize, -cellSize, cellSize);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.lineTo(p3.x, p3.y);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
             }
         }
 
         // ========== UI FUNCTIONS ==========
         function showTab(tab) {
-            currentTab = tab;
-            isShowingFamily = false;
-            document.getElementById('crystal-tab').style.display = tab === 'crystal' ? 'block' : 'none';
+            document.getElementById('systems-tab').style.display = tab === 'systems' ? 'block' : 'none';
             document.getElementById('cubic-tab').style.display = tab === 'cubic' ? 'block' : 'none';
             document.getElementById('directions-tab').style.display = tab === 'directions' ? 'block' : 'none';
+            document.getElementById('planes-tab').style.display = tab === 'planes' ? 'block' : 'none';
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            updateScene();
+            draw();
         }
 
-        function setCrystalSystem(system) {
-            currentSystem = system;
-            const valid = validBravais[system];
+        function setSystem(sys) {
+            currentSystem = sys;
+            const valid = validCentering[sys];
             if (!valid.includes(currentCentering)) currentCentering = valid[0];
-            
-            document.getElementById('current-system').textContent = systems[system].name;
-            document.getElementById('current-centering').textContent = currentCentering;
-            
-            const names = {'P':'Primitive','I':'Body-Centered','F':'Face-Centered','C':'Base-Centered'};
-            document.getElementById('bravais-name').textContent = 
-                valid.includes(currentCentering) ? `${names[currentCentering]} ${systems[system].name}` : 'Invalid!';
-            
-            let apc = 1;
-            if (currentCentering === 'I' || currentCentering === 'C') apc = 2;
-            else if (currentCentering === 'F') apc = 4;
-            document.getElementById('atoms-per-cell').textContent = apc;
-            
-            updateScene();
+            updateSystemInfo();
+            draw();
         }
 
-        function setCentering(centering) {
-            const valid = validBravais[currentSystem];
-            if (!valid.includes(centering)) {
-                alert(`${centering} invalid for ${systems[currentSystem].name}! Valid: ${valid.join(',')}`);
+        function setCentering(c) {
+            const valid = validCentering[currentSystem];
+            if (!valid.includes(c)) {
+                alert(c + ' not valid for ' + systems[currentSystem].name);
                 return;
             }
-            currentCentering = centering;
-            setCrystalSystem(currentSystem);
+            currentCentering = c;
+            updateSystemInfo();
+            draw();
         }
 
-        function setCubicType(type) {
-            currentCubicType = type;
+        function updateSystemInfo() {
+            const sys = systems[currentSystem];
+            document.getElementById('sys-name').textContent = sys.name;
+            document.getElementById('ctr-name').textContent = currentCentering;
+            document.getElementById('sys-abc').textContent = sys.a + ',' + sys.b + ',' + sys.c;
+            document.getElementById('sys-ang').textContent = sys.alpha + '°,' + sys.beta + '°,' + sys.gamma + '°';
+            
+            const names = {'P':'Primitive','I':'Body-Centered','F':'Face-Centered','C':'Base-Centered'};
+            const valid = validCentering[currentSystem];
+            document.getElementById('sys-bravais').textContent = 
+                valid.includes(currentCentering) ? names[currentCentering] + ' ' + sys.name : 'Invalid!';
+            
+            let atoms = 1;
+            if (currentCentering === 'I' || currentCentering === 'C') atoms = 2;
+            else if (currentCentering === 'F') atoms = 4;
+            document.getElementById('sys-atoms').textContent = atoms;
+        }
+
+        function setCubic(type) {
+            currentCubic = type;
             const faces = type === 'fcc' ? 6 : 0;
             const body = type === 'bcc' ? 1 : 0;
             const total = type === 'sc' ? 1 : type === 'bcc' ? 2 : 4;
             
-            document.getElementById('cubic-faces').textContent = faces;
-            document.getElementById('cubic-face-total').textContent = faces * 0.5;
-            document.getElementById('cubic-body').textContent = body;
-            document.getElementById('cubic-body-total').textContent = body;
-            document.getElementById('cubic-total').textContent = total;
-            
-            updateScene();
+            document.getElementById('c-faces').textContent = faces;
+            document.getElementById('c-ft').textContent = faces * 0.5;
+            document.getElementById('c-body').textContent = body;
+            document.getElementById('c-bt').textContent = body;
+            document.getElementById('c-total').textContent = total;
+            draw();
         }
 
-        function setDirection(dir) {
-            currentDirection = dir;
-            isShowingFamily = false;
-            updateScene();
+        function toggleOption(opt) {
+            if (opt === 'sharing') showSharingLabels = !showSharingLabels;
+            if (opt === 'multi') showMultiCell = !showMultiCell;
+            draw();
         }
 
-        function showFamily(fam) {
-            familyType = fam;
-            isShowingFamily = true;
-            updateScene();
+        function setDir(dir) {
+            currentDir = dir;
+            showFamily = false;
+            document.getElementById('dir-current').textContent = '[' + dir[0] + dir[1] + dir[2] + ']';
+            document.getElementById('dir-head').textContent = '(' + dir[0] + ',' + dir[1] + ',' + dir[2] + ')';
+            document.getElementById('dir-result').textContent = '[' + dir[0] + dir[1] + dir[2] + ']';
+            draw();
         }
 
-        function setCustomDirection() {
-            const u = parseInt(document.getElementById('dir-u').value) || 0;
-            const v = parseInt(document.getElementById('dir-v').value) || 0;
-            const w = parseInt(document.getElementById('dir-w').value) || 0;
-            setDirection([u, v, w]);
+        function showFam(fam) {
+            familyName = fam;
+            showFamily = true;
+            document.getElementById('dir-current').textContent = '⟨' + fam + '⟩ family';
+            document.getElementById('dir-head').textContent = 'Multiple directions';
+            document.getElementById('dir-result').textContent = 'See visualization';
+            draw();
         }
 
-        // Handle resize
-        window.addEventListener('resize', () => {
-            const container = document.getElementById('canvas-container');
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
+        function setPlane(plane) {
+            currentPlane = plane;
+            document.getElementById('plane-current').textContent = '(' + plane + ')';
+            draw();
+        }
+
+        // Mouse controls for rotation
+        let isDragging = false;
+        let lastX, lastY;
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            lastX = e.clientX;
+            lastY = e.clientY;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - lastX;
+                const dy = e.clientY - lastY;
+                rotation += dx * 0.01;
+                tilt += dy * 0.01;
+                tilt = Math.max(-0.5, Math.min(0.5, tilt));
+                lastX = e.clientX;
+                lastY = e.clientY;
+                draw();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => isDragging = false);
+        canvas.addEventListener('mouseleave', () => isDragging = false);
+
+        // Zoom with scroll
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            scale *= (1 - e.deltaY * 0.001);
+            scale = Math.max(20, Math.min(200, scale));
+            draw();
         });
 
         // Init
-        init();
-        setCrystalSystem('cubic');
+        window.addEventListener('resize', resize);
+        resize();
+        updateSystemInfo();
     </script>
 </body>
 </html>
