@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crystal Lattice Playground</title>
+    <title>Crystal Lattice Playground v2 - Cubic Analysis</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
@@ -24,49 +24,49 @@
             background: #fafafa;
         }
         #sidebar {
-            width: 340px;
+            width: 360px;
             background: #ffffff;
             border-left: 2px solid #000000;
-            padding: 15px;
+            padding: 12px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         h1 {
-            font-size: 16px;
+            font-size: 15px;
             border-bottom: 2px solid #000000;
-            padding-bottom: 6px;
-            margin-bottom: 5px;
+            padding-bottom: 5px;
+            margin-bottom: 4px;
         }
         h2 {
-            font-size: 13px;
-            margin-top: 8px;
-            margin-bottom: 4px;
+            font-size: 12px;
+            margin-top: 6px;
+            margin-bottom: 3px;
             color: #cc0000;
         }
         .control-group {
             border: 1px solid #000000;
-            padding: 10px;
-            margin-bottom: 8px;
+            padding: 8px;
+            margin-bottom: 6px;
         }
         .control-group label {
             display: block;
-            font-size: 11px;
-            margin-bottom: 5px;
+            font-size: 10px;
+            margin-bottom: 4px;
             font-weight: 600;
         }
         button {
             display: block;
             width: 100%;
-            padding: 8px;
-            margin-bottom: 4px;
+            padding: 6px;
+            margin-bottom: 3px;
             border: 2px solid #000000;
             background: #ffffff;
             color: #000000;
             font-weight: bold;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 10px;
             transition: all 0.2s;
         }
         button:hover {
@@ -78,96 +78,107 @@
             color: #ffffff;
             border-color: #cc0000;
         }
+        .cubic-btn {
+            font-size: 10px;
+            padding: 7px;
+            border: 2px solid #cc0000;
+        }
+        .cubic-btn:hover {
+            background: #cc0000;
+        }
         .toggle-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
         .toggle-row span {
-            font-size: 11px;
+            font-size: 10px;
         }
         input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             accent-color: #cc0000;
             cursor: pointer;
         }
         .info-box {
             background: #f0f0f0;
             border: 1px solid #000000;
-            padding: 8px;
-            font-size: 10px;
-            line-height: 1.4;
+            padding: 6px;
+            font-size: 9px;
+            line-height: 1.3;
         }
         .info-box strong {
             color: #cc0000;
         }
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            font-size: 10px;
+        .counting-table {
+            width: 100%;
+            font-size: 9px;
+            border-collapse: collapse;
+            margin-top: 4px;
         }
-        .stat-item {
+        .counting-table th, .counting-table td {
             border: 1px solid #000000;
-            padding: 4px;
+            padding: 3px;
             text-align: center;
         }
-        .stat-value {
-            font-size: 16px;
+        .counting-table th {
+            background: #000000;
+            color: #ffffff;
+        }
+        .counting-table .highlight {
+            background: #ffcccc;
             font-weight: bold;
+        }
+        .sharing-box {
+            background: #ffffff;
+            border: 2px solid #cc0000;
+            padding: 6px;
+            margin-top: 4px;
+        }
+        .sharing-box strong {
             color: #cc0000;
+            font-size: 10px;
         }
         #axis-labels {
             position: absolute;
             bottom: 15px;
             left: 15px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             background: rgba(255,255,255,0.9);
-            padding: 8px;
+            padding: 6px;
             border: 2px solid #000000;
-        }
-        .slider-group {
-            margin-bottom: 8px;
-        }
-        .slider-group label {
-            font-size: 10px;
-            display: block;
-            margin-bottom: 2px;
-        }
-        input[type="range"] {
-            width: 100%;
-            accent-color: #cc0000;
         }
         .param-table {
             width: 100%;
-            font-size: 10px;
+            font-size: 9px;
             border-collapse: collapse;
-            margin-top: 5px;
+            margin-top: 3px;
         }
         .param-table td {
             border: 1px solid #000000;
-            padding: 3px;
+            padding: 2px;
             text-align: center;
         }
         .param-table td:first-child {
             font-weight: bold;
             background: #e0e0e0;
         }
-        .sys-btn {
-            font-size: 10px;
-            padding: 6px;
+        .tab-container {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 6px;
         }
-        .bravais-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3px;
-        }
-        .bravais-btns button {
-            font-size: 10px;
+        .tab-btn {
+            flex: 1;
             padding: 5px;
+            font-size: 9px;
+            border: 1px solid #000000;
+        }
+        .tab-btn.active {
+            background: #cc0000;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -175,117 +186,154 @@
     <div id="container">
         <div id="canvas-container">
             <div id="axis-labels">
-                <span style="color:#cc0000">●</span> Atom &nbsp;&nbsp;
-                <span style="color:#000000">●</span> Lattice &nbsp;&nbsp;
-                <span style="color:#666666">━</span> Cell Edge &nbsp;&nbsp;
+                <span style="color:#cc0000">●</span> Red Atom &nbsp;
+                <span style="color:#000000">●</span> Black Atom &nbsp;
+                <span style="color:#666666">━</span> Cell Edge &nbsp;
                 <span style="color:#cc0000">▭</span> Plane
             </div>
         </div>
         <div id="sidebar">
-            <h1>🔬 LATTICE PLAYGROUND</h1>
+            <h1>🔬 CRYSTAL LATTICE PLAYGROUND</h1>
             
-            <div class="control-group">
-                <label>1. CRYSTAL SYSTEM (7 Types)</label>
-                <button class="sys-btn" id="btn-cubic" onclick="setCrystalSystem('cubic')">1. Cubic (a=b=c, 90°)</button>
-                <button class="sys-btn" id="btn-tetragonal" onclick="setCrystalSystem('tetragonal')">2. Tetragonal (a=b≠c, 90°)</button>
-                <button class="sys-btn" id="btn-orthorhombic" onclick="setCrystalSystem('orthorhombic')">3. Orthorhombic (a≠b≠c, 90°)</button>
-                <button class="sys-btn" id="btn-rhombohedral" onclick="setCrystalSystem('rhombohedral')">4. Rhombohedral (a=b=c, ≠90°)</button>
-                <button class="sys-btn" id="btn-hexagonal" onclick="setCrystalSystem('hexagonal')">5. Hexagonal (a=b≠c, γ=120°)</button>
-                <button class="sys-btn" id="btn-monoclinic" onclick="setCrystalSystem('monoclinic')">6. Monoclinic (a≠b≠c, β≠90°)</button>
-                <button class="sys-btn" id="btn-triclinic" onclick="setCrystalSystem('triclinic')">7. Triclinic (all different)</button>
+            <div class="tab-container">
+                <button class="tab-btn active" onclick="showTab('crystal')">Crystal Systems</button>
+                <button class="tab-btn" onclick="showTab('cubic')">Cubic Analysis</button>
             </div>
 
-            <div class="control-group">
-                <label>2. BRAVAIS CENTERING</label>
-                <div class="bravais-btns">
-                    <button id="btn-P" onclick="setCentering('P')">P (Primitive)</button>
-                    <button id="btn-I" onclick="setCentering('I')">I (Body)</button>
-                    <button id="btn-F" onclick="setCentering('F')">F (Face)</button>
-                    <button id="btn-C" onclick="setCentering('C')">C (Base)</button>
+            <!-- CRYSTAL SYSTEMS TAB -->
+            <div id="crystal-tab" style="display:block">
+                <div class="control-group">
+                    <label>1. CRYSTAL SYSTEM</label>
+                    <button onclick="setCrystalSystem('cubic')">1. Cubic (a=b=c, 90°)</button>
+                    <button onclick="setCrystalSystem('tetragonal')">2. Tetragonal (a=b≠c, 90°)</button>
+                    <button onclick="setCrystalSystem('orthorhombic')">3. Orthorhombic (a≠b≠c, 90°)</button>
+                    <button onclick="setCrystalSystem('rhombohedral')">4. Rhombohedral (a=b=c, ≠90°)</button>
+                    <button onclick="setCrystalSystem('hexagonal')">5. Hexagonal (a=b≠c, γ=120°)</button>
+                    <button onclick="setCrystalSystem('monoclinic')">6. Monoclinic (a≠b≠c, β≠90°)</button>
+                    <button onclick="setCrystalSystem('triclinic')">7. Triclinic (all different)</button>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <label>3. LATTICE TYPE PRESETS</label>
-                <button onclick="setPreset('sc')">Simple Cubic (P+Cubic)</button>
-                <button onclick="setPreset('bcc')">Body-Centered Cubic (I+Cubic)</button>
-                <button onclick="setPreset('fcc')">Face-Centered Cubic (F+Cubic)</button>
-                <button onclick="setPreset('bct')">Body-Centered Tetragonal</button>
-                <button onclick="setPreset('fcc_ortho')">Face-Centered Orthorhombic</button>
-            </div>
+                <div class="control-group">
+                    <label>2. BRAVAIS CENTERING</label>
+                    <button onclick="setCentering('P')">P (Primitive)</button>
+                    <button onclick="setCentering('I')">I (Body-Centered)</button>
+                    <button onclick="setCentering('F')">F (Face-Centered)</button>
+                    <button onclick="setCentering('C')">C (Base-Centered)</button>
+                </div>
 
-            <div class="control-group">
-                <label>4. DISPLAY OPTIONS</label>
-                <div class="toggle-row">
-                    <span>Show Atoms</span>
-                    <input type="checkbox" id="show-atoms" checked onchange="updateScene()">
-                </div>
-                <div class="toggle-row">
-                    <span>Show Lattice Points</span>
-                    <input type="checkbox" id="show-lattice" onchange="updateScene()">
-                </div>
-                <div class="toggle-row">
-                    <span>Show Unit Cell Box</span>
-                    <input type="checkbox" id="show-box" checked onchange="updateScene()">
-                </div>
-                <div class="toggle-row">
-                    <span>Wireframe Mode</span>
-                    <input type="checkbox" id="wireframe" onchange="updateScene()">
+                <div class="info-box">
+                    <strong>Current: <span id="current-system">Cubic</span> + <span id="current-centering">P</span></strong><br>
+                    <table class="param-table">
+                        <tr><td>a,b,c</td><td id="param-abc">2,2,2</td></tr>
+                        <tr><td>α,β,γ</td><td id="param-angles">90°,90°,90°</td></tr>
+                    </table>
+                    <strong>Bravais: <span id="bravais-name">Simple Cubic</span></strong><br>
+                    <strong>Atoms/Cell: <span id="atoms-per-cell">1</span></strong>
                 </div>
             </div>
 
+            <!-- CUBIC ANALYSIS TAB -->
+            <div id="cubic-tab" style="display:none">
+                <div class="control-group">
+                    <label>1. CUBIC LATTICE TYPE</label>
+                    <button class="cubic-btn" id="btn-sc" onclick="setCubicType('sc')">Simple Cubic (SC) - 1 atom</button>
+                    <button class="cubic-btn" id="btn-bcc" onclick="setCubicType('bcc')">Body-Centered (BCC) - 2 atoms</button>
+                    <button class="cubic-btn" id="btn-fcc" onclick="setCubicType('fcc')">Face-Centered (FCC) - 4 atoms</button>
+                </div>
+
+                <div class="control-group">
+                    <label>2. DISPLAY OPTIONS</label>
+                    <div class="toggle-row">
+                        <span>Show Space-Filling Model</span>
+                        <input type="checkbox" id="space-filling" onchange="updateCubicScene()">
+                    </div>
+                    <div class="toggle-row">
+                        <span>Show Sharing Fractions</span>
+                        <input type="checkbox" id="show-sharing" onchange="updateCubicScene()">
+                    </div>
+                    <div class="toggle-row">
+                        <span>Show Touching Lines</span>
+                        <input type="checkbox" id="show-touching" onchange="updateCubicScene()">
+                    </div>
+                    <div class="toggle-row">
+                        <span>Show Multi-Cell (2×2×2)</span>
+                        <input type="checkbox" id="show-multi" onchange="updateCubicScene()">
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Atom Counting for <span id="cubic-type-name">Simple Cubic</span>:</strong>
+                    <table class="counting-table">
+                        <tr>
+                            <th>Position</th>
+                            <th>Count</th>
+                            <th>× Share</th>
+                            <th>= Total</th>
+                        </tr>
+                        <tr id="row-corners">
+                            <td>Corners</td>
+                            <td>8</td>
+                            <td>1/8</td>
+                            <td class="highlight">1</td>
+                        </tr>
+                        <tr id="row-faces">
+                            <td>Faces</td>
+                            <td>0</td>
+                            <td>1/2</td>
+                            <td class="highlight">0</td>
+                        </tr>
+                        <tr id="row-body">
+                            <td>Body</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td class="highlight">0</td>
+                        </tr>
+                        <tr style="background:#000000; color:#ffffff; font-weight:bold">
+                            <td colspan="3">TOTAL ATOMS/CELL</td>
+                            <td id="total-atoms">1</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="sharing-box">
+                    <strong>🔑 Sharing Rules:</strong><br>
+                    • <strong>Corner atom:</strong> Shared by 8 cells → you get <strong>1/8</strong><br>
+                    • <strong>Face atom:</strong> Shared by 2 cells → you get <strong>1/2</strong><br>
+                    • <strong>Body atom:</strong> Only YOUR cell → you get <strong>1 whole</strong><br>
+                    <br>
+                    <strong>Memory:</strong> 8 corners meet at a point,<br>
+                    2 cells share a face,<br>
+                    1 cell owns the center.
+                </div>
+
+                <div class="info-box">
+                    <strong>Packing Efficiency:</strong><br>
+                    SC: <strong>52%</strong> | BCC: <strong>68%</strong> | FCC: <strong>74%</strong><br><br>
+                    <strong>Coordination #:</strong><br>
+                    SC: <strong>6</strong> | BCC: <strong>8</strong> | FCC: <strong>12</strong><br><br>
+                    <strong>Key Fact:</strong><br>
+                    BCC center atom prevents corners from touching!<br>
+                    FCC has ABC layer stacking (74% = maximum possible)
+                </div>
+            </div>
+
             <div class="control-group">
-                <label>5. MILLER PLANES (hkl)</label>
+                <label>3. MILLER PLANES</label>
                 <button onclick="showPlane('none')">Hide Plane</button>
                 <button onclick="showPlane('100')">(100) Plane</button>
                 <button onclick="showPlane('110')">(110) Plane</button>
                 <button onclick="showPlane('111')">(111) Plane</button>
-            </div>
-
-            <div class="info-box">
-                <strong>Current: <span id="current-system">Cubic</span> + <span id="current-centering">P</span></strong><br><br>
-                <table class="param-table">
-                    <tr><td>a, b, c</td><td id="param-abc">2, 2, 2</td></tr>
-                    <tr><td>α, β, γ</td><td id="param-angles">90°, 90°, 90°</td></tr>
-                </table>
-                <br>
-                <strong>Bravais Lattice: <span id="bravais-name">Simple Cubic</span></strong><br>
-                <strong>Atoms/Cell: <span id="atoms-per-cell">1</span></strong>
-            </div>
-
-            <div class="info-box">
-                <strong>Centering Rules:</strong><br>
-                • <strong>P</strong>: Corners only = 1 atom/cell<br>
-                • <strong>I</strong>: + body center = 2 atoms/cell<br>
-                • <strong>F</strong>: + 6 face centers = 4 atoms/cell<br>
-                • <strong>C</strong>: + 2 base faces = 2 atoms/cell<br>
-                <br>
-                <strong>Only 14 Bravais lattices exist!</strong><br>
-                Not all 7×4=28 combinations are geometrically unique.
-            </div>
-
-            <div class="info-box">
-                <strong>Navigation:</strong><br>
-                • Left click + drag = Rotate<br>
-                • Right click + drag = Pan<br>
-                • Scroll = Zoom<br>
-                <br>
-                <strong>Colors:</strong><br>
-                • Red = Atoms / Planes<br>
-                • Black = Lattice points / Text<br>
-                • Grey = Unit cell edges
             </div>
         </div>
     </div>
 
     <script>
         let scene, camera, renderer, controls;
-        let currentSystem = 'cubic';
-        let currentCentering = 'P';
+        let currentTab = 'crystal';
+        let currentCubicType = 'sc';
         let currentPlane = 'none';
         let objects = [];
         let planeMesh = null;
-        let labelSprites = [];
 
         // Crystal system definitions
         const systems = {
@@ -298,7 +346,6 @@
             triclinic: { a: 2, b: 2.5, c: 3, alpha: 80, beta: 100, gamma: 70, name: 'Triclinic' }
         };
 
-        // Valid Bravais combinations
         const validBravais = {
             cubic: ['P', 'I', 'F'],
             tetragonal: ['P', 'I'],
@@ -309,6 +356,9 @@
             hexagonal: ['P']
         };
 
+        let currentSystem = 'cubic';
+        let currentCentering = 'P';
+
         function init() {
             const container = document.getElementById('canvas-container');
             
@@ -316,7 +366,7 @@
             scene.background = new THREE.Color(0xfafafa);
 
             camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 100);
-            camera.position.set(6, 5, 7);
+            camera.position.set(5, 4, 6);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
@@ -345,8 +395,6 @@
         function clearScene() {
             objects.forEach(obj => scene.remove(obj));
             objects = [];
-            labelSprites.forEach(sprite => scene.remove(sprite));
-            labelSprites = [];
             if (planeMesh) {
                 scene.remove(planeMesh);
                 planeMesh = null;
@@ -355,42 +403,17 @@
 
         function toRad(deg) { return deg * Math.PI / 180; }
 
-        function getUnitCellVectors(sys) {
-            const a = sys.a;
-            const b = sys.b;
-            const c = sys.c;
-            const alpha = toRad(sys.alpha);
-            const beta = toRad(sys.beta);
-            const gamma = toRad(sys.gamma);
-
-            // Unit cell vectors
-            const ax = new THREE.Vector3(a, 0, 0);
-            
-            const bx = b * Math.cos(gamma);
-            const by = b * Math.sin(gamma);
-            const ay = new THREE.Vector3(bx, by, 0);
-            
-            const cx = c * Math.cos(beta);
-            const cy = c * (Math.cos(alpha) - Math.cos(beta) * Math.cos(gamma)) / Math.sin(gamma);
-            const cz = Math.sqrt(c*c - cx*cx - cy*cy);
-            const az = new THREE.Vector3(cx, cy, cz);
-
-            return { ax, ay, az };
-        }
-
-        function createAtom(pos, color, radius = 0.15) {
+        function createAtom(pos, color, radius) {
             const geometry = new THREE.SphereGeometry(radius, 24, 24);
-            const material = new THREE.MeshPhongMaterial({
-                color: color,
-                wireframe: document.getElementById('wireframe').checked
-            });
+            const material = new THREE.MeshPhongMaterial({ color: color });
             const sphere = new THREE.Mesh(geometry, material);
             sphere.position.copy(pos);
             scene.add(sphere);
             objects.push(sphere);
+            return sphere;
         }
 
-        function createLine(p1, p2, color, width = 1) {
+        function createLine(p1, p2, color, width = 2) {
             const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
             const material = new THREE.LineBasicMaterial({ color: color, linewidth: width });
             const line = new THREE.Line(geometry, material);
@@ -398,203 +421,262 @@
             objects.push(line);
         }
 
+        function createLabel(text, pos) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 128;
+            canvas.height = 64;
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 28px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(text, 64, 40);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
+            sprite.position.copy(pos);
+            sprite.scale.set(0.6, 0.3, 1);
+            scene.add(sprite);
+            objects.push(sprite);
+        }
+
+        // ========== CRYSTAL SYSTEMS MODE ==========
+        function getUnitCellVectors(sys) {
+            const a = sys.a, b = sys.b, c = sys.c;
+            const alpha = toRad(sys.alpha), beta = toRad(sys.beta), gamma = toRad(sys.gamma);
+
+            const ax = new THREE.Vector3(a, 0, 0);
+            const bx = b * Math.cos(gamma);
+            const by = b * Math.sin(gamma);
+            const ay = new THREE.Vector3(bx, by, 0);
+            const cx = c * Math.cos(beta);
+            const cy = c * (Math.cos(alpha) - Math.cos(beta)*Math.cos(gamma)) / Math.sin(gamma);
+            const cz = Math.sqrt(c*c - cx*cx - cy*cy);
+            const az = new THREE.Vector3(cx, cy, cz);
+
+            return { ax, ay, az };
+        }
+
         function getLatticePoints(centering) {
             const points = [];
+            const corners = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
+            corners.forEach(c => points.push({u:c[0],v:c[1],w:c[2],type:'corner'}));
             
-            // Corners (always present)
-            const corners = [
-                [0,0,0], [1,0,0], [1,1,0], [0,1,0],
-                [0,0,1], [1,0,1], [1,1,1], [0,1,1]
-            ];
-            corners.forEach(c => points.push({ u: c[0], v: c[1], w: c[2], type: 'corner' }));
-
-            if (centering === 'I') {
-                points.push({ u: 0.5, v: 0.5, w: 0.5, type: 'body' });
-            }
-            
+            if (centering === 'I') points.push({u:0.5,v:0.5,w:0.5,type:'body'});
             if (centering === 'F') {
-                points.push(
-                    { u: 0.5, v: 0.5, w: 0, type: 'face' },
-                    { u: 0.5, v: 0, w: 0.5, type: 'face' },
-                    { u: 0, v: 0.5, w: 0.5, type: 'face' },
-                    { u: 0.5, v: 0.5, w: 1, type: 'face' },
-                    { u: 0.5, v: 1, w: 0.5, type: 'face' },
-                    { u: 1, v: 0.5, w: 0.5, type: 'face' }
-                );
+                points.push({u:0.5,v:0.5,w:0,type:'face'},{u:0.5,v:0,w:0.5,type:'face'},
+                    {u:0,v:0.5,w:0.5,type:'face'},{u:0.5,v:0.5,w:1,type:'face'},
+                    {u:0.5,v:1,w:0.5,type:'face'},{u:1,v:0.5,w:0.5,type:'face'});
             }
-            
             if (centering === 'C') {
-                points.push(
-                    { u: 0.5, v: 0.5, w: 0, type: 'base' },
-                    { u: 0.5, v: 0.5, w: 1, type: 'base' }
-                );
+                points.push({u:0.5,v:0.5,w:0,type:'base'},{u:0.5,v:0.5,w:1,type:'base'});
             }
-
             return points;
         }
 
-        function updateScene() {
-            clearScene();
-            
-            const showAtoms = document.getElementById('show-atoms').checked;
-            const showLattice = document.getElementById('show-lattice').checked;
-            const showBox = document.getElementById('show-box').checked;
-
+        function drawCrystalScene() {
             const sys = systems[currentSystem];
             const vecs = getUnitCellVectors(sys);
             const points = getLatticePoints(currentCentering);
+            const showBox = true;
 
-            // Draw unit cell edges
+            // Draw box
             if (showBox) {
-                const origin = new THREE.Vector3(-vecs.ax.x/2, -vecs.ay.y/2, -vecs.az.z/2);
-                
-                // Calculate all 8 vertices
                 const vertices = [];
                 for (let i = 0; i < 8; i++) {
-                    const u = (i & 1) ? 1 : 0;
-                    const v = (i & 2) ? 1 : 0;
-                    const w = (i & 4) ? 1 : 0;
-                    
+                    const u = (i & 1) ? 1 : 0, v = (i & 2) ? 1 : 0, w = (i & 4) ? 1 : 0;
                     const pos = new THREE.Vector3()
                         .addScaledVector(vecs.ax, u)
                         .addScaledVector(vecs.ay, v)
                         .addScaledVector(vecs.az, w);
-                    
-                    // Center the cell
                     pos.x -= (vecs.ax.x + vecs.ay.x + vecs.az.x) / 2;
                     pos.y -= (vecs.ay.y + vecs.az.y) / 2;
                     pos.z -= vecs.az.z / 2;
-                    
                     vertices.push(pos);
                 }
-
-                // Draw edges
-                const edges = [
-                    [0,1], [1,3], [3,2], [2,0], // bottom
-                    [4,5], [5,7], [7,6], [6,4], // top
-                    [0,4], [1,5], [3,7], [2,6]  // vertical
-                ];
-                
-                edges.forEach(e => {
-                    createLine(vertices[e[0]], vertices[e[1]], 0x666666, 2);
-                });
+                const edges = [[0,1],[1,3],[3,2],[2,0],[4,5],[5,7],[7,6],[6,4],[0,4],[1,5],[3,7],[2,6]];
+                edges.forEach(e => createLine(vertices[e[0]], vertices[e[1]], 0x666666));
             }
 
-            // Draw atoms/lattice points
+            // Draw atoms
             points.forEach(pt => {
                 const pos = new THREE.Vector3()
                     .addScaledVector(vecs.ax, pt.u)
                     .addScaledVector(vecs.ay, pt.v)
                     .addScaledVector(vecs.az, pt.w);
-                
-                // Center
                 pos.x -= (vecs.ax.x + vecs.ay.x + vecs.az.x) / 2;
                 pos.y -= (vecs.ay.y + vecs.az.y) / 2;
                 pos.z -= vecs.az.z / 2;
-
-                if (showAtoms) {
-                    const color = (pt.type === 'body') ? 0x000000 : 0xcc0000;
-                    createAtom(pos, color, 0.2);
-                }
                 
-                if (showLattice) {
-                    createAtom(pos, 0x000000, 0.06);
-                }
+                const color = (pt.type === 'body') ? 0x000000 : 0xcc0000;
+                createAtom(pos, color, 0.15);
             });
-
-            // Draw Miller plane
-            if (currentPlane !== 'none') {
-                drawMillerPlane(vecs, currentPlane);
-            }
-
-            updateStats();
         }
 
-        function drawMillerPlane(vecs, plane) {
-            const planeSize = 2.5;
+        // ========== CUBIC ANALYSIS MODE ==========
+        function drawCubicScene() {
+            const cellSize = 2.5;
+            const showSpaceFilling = document.getElementById('space-filling').checked;
+            const showSharing = document.getElementById('show-sharing').checked;
+            const showTouching = document.getElementById('show-touching').checked;
+            const showMulti = document.getElementById('show-multi').checked;
+            
+            const radius = showSpaceFilling ? 0.5 : 0.2;
+            const reps = showMulti ? 2 : 1;
+            const offset = -cellSize * (reps - 1) / 2;
+
+            for (let ix = 0; ix < reps; ix++) {
+                for (let iy = 0; iy < reps; iy++) {
+                    for (let iz = 0; iz < reps; iz++) {
+                        const ox = offset + ix * cellSize;
+                        const oy = offset + iy * cellSize;
+                        const oz = offset + iz * cellSize;
+                        
+                        // Draw cell edges
+                        const vertices = [];
+                        for (let i = 0; i < 8; i++) {
+                            const x = ox + ((i & 1) ? cellSize : 0);
+                            const y = oy + ((i & 2) ? cellSize : 0);
+                            const z = oz + ((i & 4) ? cellSize : 0);
+                            vertices.push(new THREE.Vector3(x, y, z));
+                        }
+                        const edges = [[0,1],[1,3],[3,2],[2,0],[4,5],[5,7],[7,6],[6,4],[0,4],[1,5],[3,7],[2,6]];
+                        edges.forEach(e => createLine(vertices[e[0]], vertices[e[1]], 0x666666, 1));
+
+                        // Draw atoms
+                        const corners = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
+                        
+                        corners.forEach((c, i) => {
+                            const pos = new THREE.Vector3(
+                                ox + c[0] * cellSize,
+                                oy + c[1] * cellSize,
+                                oz + c[2] * cellSize
+                            );
+                            createAtom(pos, 0xcc0000, radius);
+                            
+                            if (showSharing && reps === 1) {
+                                createLabel('1/8', new THREE.Vector3(pos.x, pos.y + radius + 0.15, pos.z));
+                            }
+                        });
+
+                        if (currentCubicType === 'bcc' || currentCubicType === 'fcc') {
+                            // Body center
+                            const bodyPos = new THREE.Vector3(
+                                ox + cellSize/2,
+                                oy + cellSize/2,
+                                oz + cellSize/2
+                            );
+                            
+                            if (currentCubicType === 'bcc') {
+                                createAtom(bodyPos, 0x000000, radius);
+                                if (showSharing && reps === 1) {
+                                    createLabel('1', new THREE.Vector3(bodyPos.x, bodyPos.y + radius + 0.2, bodyPos.z));
+                                }
+                                
+                                // Show touching lines (center to corners)
+                                if (showTouching) {
+                                    corners.forEach(c => {
+                                        const cornerPos = new THREE.Vector3(
+                                            ox + c[0] * cellSize,
+                                            oy + c[1] * cellSize,
+                                            oz + c[2] * cellSize
+                                        );
+                                        createLine(bodyPos, cornerPos, 0xcc0000, 1);
+                                    });
+                                }
+                            }
+                            
+                            if (currentCubicType === 'fcc') {
+                                const faces = [
+                                    [0.5,0.5,0],[0.5,0,0.5],[0,0.5,0.5],
+                                    [0.5,0.5,1],[0.5,1,0.5],[1,0.5,0.5]
+                                ];
+                                faces.forEach(f => {
+                                    const facePos = new THREE.Vector3(
+                                        ox + f[0] * cellSize,
+                                        oy + f[1] * cellSize,
+                                        oz + f[2] * cellSize
+                                    );
+                                    createAtom(facePos, 0x000000, radius);
+                                    
+                                    if (showSharing && reps === 1) {
+                                        createLabel('1/2', new THREE.Vector3(facePos.x, facePos.y + radius + 0.15, facePos.z));
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function updateScene() {
+            clearScene();
+            if (currentTab === 'crystal') {
+                drawCrystalScene();
+            } else {
+                drawCubicScene();
+            }
+            
+            if (currentPlane !== 'none') {
+                drawMillerPlane();
+            }
+        }
+
+        function drawMillerPlane() {
+            const planeSize = 3;
             const geometry = new THREE.PlaneGeometry(planeSize, planeSize);
             const material = new THREE.MeshPhongMaterial({
                 color: 0xcc0000,
                 transparent: true,
-                opacity: 0.25,
+                opacity: 0.2,
                 side: THREE.DoubleSide
             });
             planeMesh = new THREE.Mesh(geometry, material);
             
-            // Position plane based on Miller indices
-            const center = new THREE.Vector3(
-                (vecs.ax.x + vecs.ay.x + vecs.az.x) / 4,
-                (vecs.ay.y + vecs.az.y) / 4,
-                vecs.az.z / 4
-            );
-            
-            if (plane === '100') {
-                planeMesh.position.set(center.x + vecs.ax.x/2, center.y, center.z);
-                planeMesh.lookAt(new THREE.Vector3(center.x + vecs.ax.x, center.y, center.z));
-            } else if (plane === '110') {
-                planeMesh.position.set(center.x, center.y + vecs.ay.y/2, center.z);
+            if (currentPlane === '100') {
+                planeMesh.position.set(1.25, 0, 0);
+                planeMesh.rotation.y = Math.PI / 2;
+            } else if (currentPlane === '110') {
+                planeMesh.position.set(0, 0, 0);
                 planeMesh.rotation.z = Math.PI / 4;
-            } else if (plane === '111') {
-                planeMesh.position.copy(center);
+            } else if (currentPlane === '111') {
+                planeMesh.position.set(0.8, 0.8, 0.8);
                 planeMesh.lookAt(new THREE.Vector3(0,0,0));
             }
             
             scene.add(planeMesh);
         }
 
-        function updateStats() {
-            const sys = systems[currentSystem];
-            const valid = validBravais[currentSystem];
-            
-            document.getElementById('current-system').textContent = sys.name;
-            document.getElementById('current-centering').textContent = currentCentering;
-            document.getElementById('param-abc').textContent = 
-                `${sys.a.toFixed(1)}, ${sys.b.toFixed(1)}, ${sys.c.toFixed(1)}`;
-            document.getElementById('param-angles').textContent = 
-                `${sys.alpha}°, ${sys.beta}°, ${sys.gamma}°`;
-
-            // Bravais name
-            const centeringNames = { 'P': 'Primitive', 'I': 'Body-Centered', 'F': 'Face-Centered', 'C': 'Base-Centered' };
-            document.getElementById('bravais-name').textContent = 
-                valid.includes(currentCentering) 
-                    ? `${centeringNames[currentCentering]} ${sys.name}`
-                    : `${sys.name} + ${currentCentering} (Invalid!)`;
-
-            // Atoms per cell
-            let atomsPerCell = 1; // P
-            if (currentCentering === 'I') atomsPerCell = 2;
-            else if (currentCentering === 'F') atomsPerCell = 4;
-            else if (currentCentering === 'C') atomsPerCell = 2;
-            
-            document.getElementById('atoms-per-cell').textContent = atomsPerCell;
-
-            // Update button states
-            document.querySelectorAll('.bravais-btns button').forEach(btn => {
-                const type = btn.id.replace('btn-', '');
-                if (valid.includes(type)) {
-                    btn.style.opacity = '1';
-                    btn.style.pointerEvents = 'auto';
-                } else {
-                    btn.style.opacity = '0.3';
-                    btn.style.pointerEvents = 'none';
-                }
-                btn.classList.toggle('active', type === currentCentering);
-            });
+        // ========== UI FUNCTIONS ==========
+        function showTab(tab) {
+            currentTab = tab;
+            document.getElementById('crystal-tab').style.display = tab === 'crystal' ? 'block' : 'none';
+            document.getElementById('cubic-tab').style.display = tab === 'cubic' ? 'block' : 'none';
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateScene();
         }
 
         function setCrystalSystem(system) {
             currentSystem = system;
-            
-            // Reset to valid centering if current is invalid
             const valid = validBravais[system];
-            if (!valid.includes(currentCentering)) {
-                currentCentering = valid[0];
-            }
+            if (!valid.includes(currentCentering)) currentCentering = valid[0];
             
-            document.querySelectorAll('.sys-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById('btn-' + system).classList.add('active');
+            document.getElementById('current-system').textContent = systems[system].name;
+            document.getElementById('current-centering').textContent = currentCentering;
+            document.getElementById('param-abc').textContent = 
+                `${systems[system].a},${systems[system].b},${systems[system].c}`;
+            document.getElementById('param-angles').textContent = 
+                `${systems[system].alpha}°,${systems[system].beta}°,${systems[system].gamma}°`;
+            
+            const names = {'P':'Primitive','I':'Body-Centered','F':'Face-Centered','C':'Base-Centered'};
+            document.getElementById('bravais-name').textContent = 
+                valid.includes(currentCentering) ? `${names[currentCentering]} ${systems[system].name}` : 'Invalid!';
+            
+            let apc = 1;
+            if (currentCentering === 'I' || currentCentering === 'C') apc = 2;
+            else if (currentCentering === 'F') apc = 4;
+            document.getElementById('atoms-per-cell').textContent = apc;
             
             updateScene();
         }
@@ -602,32 +684,44 @@
         function setCentering(centering) {
             const valid = validBravais[currentSystem];
             if (!valid.includes(centering)) {
-                alert(`${centering} centering is not valid for ${systems[currentSystem].name} system!\n\nValid options: ${valid.join(', ')}`);
+                alert(`${centering} invalid for ${systems[currentSystem].name}! Valid: ${valid.join(',')}`);
                 return;
             }
             currentCentering = centering;
+            setCrystalSystem(currentSystem);
+        }
+
+        function setCubicType(type) {
+            currentCubicType = type;
+            document.querySelectorAll('.cubic-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + type).classList.add('active');
+            
+            const names = {sc: 'Simple Cubic', bcc: 'Body-Centered Cubic', fcc: 'Face-Centered Cubic'};
+            document.getElementById('cubic-type-name').textContent = names[type];
+            
+            // Update counting table
+            if (type === 'sc') {
+                document.getElementById('row-corners').innerHTML = '<td>Corners</td><td>8</td><td>1/8</td><td class="highlight">1</td>';
+                document.getElementById('row-faces').innerHTML = '<td>Faces</td><td>0</td><td>1/2</td><td class="highlight">0</td>';
+                document.getElementById('row-body').innerHTML = '<td>Body</td><td>0</td><td>1</td><td class="highlight">0</td>';
+                document.getElementById('total-atoms').textContent = '1';
+            } else if (type === 'bcc') {
+                document.getElementById('row-corners').innerHTML = '<td>Corners</td><td>8</td><td>1/8</td><td class="highlight">1</td>';
+                document.getElementById('row-faces').innerHTML = '<td>Faces</td><td>0</td><td>1/2</td><td class="highlight">0</td>';
+                document.getElementById('row-body').innerHTML = '<td>Body</td><td>1</td><td>1</td><td class="highlight">1</td>';
+                document.getElementById('total-atoms').textContent = '2';
+            } else if (type === 'fcc') {
+                document.getElementById('row-corners').innerHTML = '<td>Corners</td><td>8</td><td>1/8</td><td class="highlight">1</td>';
+                document.getElementById('row-faces').innerHTML = '<td>Faces</td><td>6</td><td>1/2</td><td class="highlight">3</td>';
+                document.getElementById('row-body').innerHTML = '<td>Body</td><td>0</td><td>1</td><td class="highlight">0</td>';
+                document.getElementById('total-atoms').textContent = '4';
+            }
+            
             updateScene();
         }
 
-        function setPreset(name) {
-            const presets = {
-                sc: { system: 'cubic', centering: 'P' },
-                bcc: { system: 'cubic', centering: 'I' },
-                fcc: { system: 'cubic', centering: 'F' },
-                bct: { system: 'tetragonal', centering: 'I' },
-                fcc_ortho: { system: 'orthorhombic', centering: 'F' }
-            };
-            
-            const preset = presets[name];
-            if (preset) {
-                currentSystem = preset.system;
-                currentCentering = preset.centering;
-                
-                document.querySelectorAll('.sys-btn').forEach(btn => btn.classList.remove('active'));
-                document.getElementById('btn-' + preset.system).classList.add('active');
-                
-                updateScene();
-            }
+        function updateCubicScene() {
+            updateScene();
         }
 
         function showPlane(plane) {
@@ -635,17 +729,9 @@
             updateScene();
         }
 
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            const container = document.getElementById('canvas-container');
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
-
-        // Initialize
+        // Init
         init();
-        setCrystalSystem('cubic');
+        setCubicType('sc');
     </script>
 </body>
 </html>
