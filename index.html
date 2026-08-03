@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crystal Lattice Playground v2 - Cubic Analysis</title>
+    <title>Crystal Lattice Playground v3 - Directions</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
@@ -24,49 +24,49 @@
             background: #fafafa;
         }
         #sidebar {
-            width: 360px;
+            width: 370px;
             background: #ffffff;
             border-left: 2px solid #000000;
-            padding: 12px;
+            padding: 10px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
         h1 {
-            font-size: 15px;
+            font-size: 14px;
             border-bottom: 2px solid #000000;
-            padding-bottom: 5px;
-            margin-bottom: 4px;
+            padding-bottom: 4px;
+            margin-bottom: 3px;
         }
         h2 {
-            font-size: 12px;
-            margin-top: 6px;
-            margin-bottom: 3px;
+            font-size: 11px;
+            margin-top: 5px;
+            margin-bottom: 2px;
             color: #cc0000;
         }
         .control-group {
             border: 1px solid #000000;
-            padding: 8px;
-            margin-bottom: 6px;
+            padding: 6px;
+            margin-bottom: 4px;
         }
         .control-group label {
             display: block;
-            font-size: 10px;
-            margin-bottom: 4px;
+            font-size: 9px;
+            margin-bottom: 3px;
             font-weight: 600;
         }
         button {
             display: block;
             width: 100%;
-            padding: 6px;
-            margin-bottom: 3px;
+            padding: 5px;
+            margin-bottom: 2px;
             border: 2px solid #000000;
             background: #ffffff;
             color: #000000;
             font-weight: bold;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 9px;
             transition: all 0.2s;
         }
         button:hover {
@@ -78,107 +78,116 @@
             color: #ffffff;
             border-color: #cc0000;
         }
-        .cubic-btn {
-            font-size: 10px;
-            padding: 7px;
-            border: 2px solid #cc0000;
+        .direction-btn {
+            font-size: 9px;
+            padding: 4px;
+            border: 1px solid #000000;
         }
-        .cubic-btn:hover {
+        .family-btn {
+            font-size: 9px;
+            padding: 4px;
+            border: 1px solid #cc0000;
+            color: #cc0000;
+        }
+        .family-btn.active {
             background: #cc0000;
+            color: #ffffff;
         }
         .toggle-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         .toggle-row span {
-            font-size: 10px;
+            font-size: 9px;
         }
         input[type="checkbox"] {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             accent-color: #cc0000;
             cursor: pointer;
         }
         .info-box {
             background: #f0f0f0;
             border: 1px solid #000000;
-            padding: 6px;
-            font-size: 9px;
+            padding: 5px;
+            font-size: 8px;
             line-height: 1.3;
         }
         .info-box strong {
             color: #cc0000;
         }
-        .counting-table {
-            width: 100%;
-            font-size: 9px;
-            border-collapse: collapse;
-            margin-top: 4px;
-        }
-        .counting-table th, .counting-table td {
-            border: 1px solid #000000;
-            padding: 3px;
-            text-align: center;
-        }
-        .counting-table th {
-            background: #000000;
-            color: #ffffff;
-        }
-        .counting-table .highlight {
-            background: #ffcccc;
-            font-weight: bold;
-        }
-        .sharing-box {
+        .calc-box {
             background: #ffffff;
             border: 2px solid #cc0000;
-            padding: 6px;
-            margin-top: 4px;
+            padding: 5px;
+            margin-top: 3px;
         }
-        .sharing-box strong {
-            color: #cc0000;
-            font-size: 10px;
+        .calc-step {
+            font-size: 8px;
+            margin-bottom: 2px;
         }
-        #axis-labels {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            font-size: 11px;
+        .highlight {
+            background: #ffcccc;
             font-weight: bold;
-            background: rgba(255,255,255,0.9);
-            padding: 6px;
-            border: 2px solid #000000;
+            padding: 1px 3px;
         }
-        .param-table {
+        .notation-table {
             width: 100%;
-            font-size: 9px;
+            font-size: 8px;
             border-collapse: collapse;
             margin-top: 3px;
         }
-        .param-table td {
+        .notation-table td, .notation-table th {
             border: 1px solid #000000;
             padding: 2px;
             text-align: center;
         }
-        .param-table td:first-child {
-            font-weight: bold;
-            background: #e0e0e0;
+        .notation-table th {
+            background: #000000;
+            color: #ffffff;
         }
         .tab-container {
             display: flex;
             gap: 2px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .tab-btn {
             flex: 1;
-            padding: 5px;
-            font-size: 9px;
+            padding: 4px;
+            font-size: 8px;
             border: 1px solid #000000;
         }
         .tab-btn.active {
             background: #cc0000;
             color: #ffffff;
+        }
+        #axis-labels {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.9);
+            padding: 5px;
+            border: 2px solid #000000;
+        }
+        .input-group {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 3px;
+        }
+        .input-group input {
+            width: 50px;
+            font-size: 10px;
+            text-align: center;
+            border: 1px solid #000000;
+            padding: 2px;
+        }
+        .input-group span {
+            font-size: 9px;
+            align-self: center;
         }
     </style>
 </head>
@@ -186,18 +195,18 @@
     <div id="container">
         <div id="canvas-container">
             <div id="axis-labels">
-                <span style="color:#cc0000">●</span> Red Atom &nbsp;
-                <span style="color:#000000">●</span> Black Atom &nbsp;
-                <span style="color:#666666">━</span> Cell Edge &nbsp;
-                <span style="color:#cc0000">▭</span> Plane
+                <span style="color:#cc0000">━</span> Direction &nbsp;
+                <span style="color:#000000">●</span> Atom &nbsp;
+                <span style="color:#666666">━</span> Cell Edge
             </div>
         </div>
         <div id="sidebar">
             <h1>🔬 CRYSTAL LATTICE PLAYGROUND</h1>
             
             <div class="tab-container">
-                <button class="tab-btn active" onclick="showTab('crystal')">Crystal Systems</button>
-                <button class="tab-btn" onclick="showTab('cubic')">Cubic Analysis</button>
+                <button class="tab-btn active" onclick="showTab('crystal')">Systems</button>
+                <button class="tab-btn" onclick="showTab('cubic')">Cubic</button>
+                <button class="tab-btn" onclick="showTab('directions')">Directions</button>
             </div>
 
             <!-- CRYSTAL SYSTEMS TAB -->
@@ -223,106 +232,125 @@
 
                 <div class="info-box">
                     <strong>Current: <span id="current-system">Cubic</span> + <span id="current-centering">P</span></strong><br>
-                    <table class="param-table">
-                        <tr><td>a,b,c</td><td id="param-abc">2,2,2</td></tr>
-                        <tr><td>α,β,γ</td><td id="param-angles">90°,90°,90°</td></tr>
-                    </table>
-                    <strong>Bravais: <span id="bravais-name">Simple Cubic</span></strong><br>
-                    <strong>Atoms/Cell: <span id="atoms-per-cell">1</span></strong>
+                    Bravais: <span id="bravais-name">Simple Cubic</span><br>
+                    Atoms/Cell: <span id="atoms-per-cell">1</span>
                 </div>
             </div>
 
             <!-- CUBIC ANALYSIS TAB -->
             <div id="cubic-tab" style="display:none">
                 <div class="control-group">
-                    <label>1. CUBIC LATTICE TYPE</label>
-                    <button class="cubic-btn" id="btn-sc" onclick="setCubicType('sc')">Simple Cubic (SC) - 1 atom</button>
-                    <button class="cubic-btn" id="btn-bcc" onclick="setCubicType('bcc')">Body-Centered (BCC) - 2 atoms</button>
-                    <button class="cubic-btn" id="btn-fcc" onclick="setCubicType('fcc')">Face-Centered (FCC) - 4 atoms</button>
+                    <label>1. CUBIC TYPE</label>
+                    <button onclick="setCubicType('sc')">Simple Cubic (1 atom)</button>
+                    <button onclick="setCubicType('bcc')">Body-Centered (2 atoms)</button>
+                    <button onclick="setCubicType('fcc')">Face-Centered (4 atoms)</button>
                 </div>
 
                 <div class="control-group">
-                    <label>2. DISPLAY OPTIONS</label>
+                    <label>2. OPTIONS</label>
                     <div class="toggle-row">
-                        <span>Show Space-Filling Model</span>
-                        <input type="checkbox" id="space-filling" onchange="updateCubicScene()">
+                        <span>Space-Filling</span>
+                        <input type="checkbox" id="space-filling" onchange="updateScene()">
                     </div>
                     <div class="toggle-row">
-                        <span>Show Sharing Fractions</span>
-                        <input type="checkbox" id="show-sharing" onchange="updateCubicScene()">
-                    </div>
-                    <div class="toggle-row">
-                        <span>Show Touching Lines</span>
-                        <input type="checkbox" id="show-touching" onchange="updateCubicScene()">
-                    </div>
-                    <div class="toggle-row">
-                        <span>Show Multi-Cell (2×2×2)</span>
-                        <input type="checkbox" id="show-multi" onchange="updateCubicScene()">
+                        <span>Show Sharing</span>
+                        <input type="checkbox" id="show-sharing" onchange="updateScene()">
                     </div>
                 </div>
 
                 <div class="info-box">
-                    <strong>Atom Counting for <span id="cubic-type-name">Simple Cubic</span>:</strong>
-                    <table class="counting-table">
-                        <tr>
-                            <th>Position</th>
-                            <th>Count</th>
-                            <th>× Share</th>
-                            <th>= Total</th>
-                        </tr>
-                        <tr id="row-corners">
-                            <td>Corners</td>
-                            <td>8</td>
-                            <td>1/8</td>
-                            <td class="highlight">1</td>
-                        </tr>
-                        <tr id="row-faces">
-                            <td>Faces</td>
-                            <td>0</td>
-                            <td>1/2</td>
-                            <td class="highlight">0</td>
-                        </tr>
-                        <tr id="row-body">
-                            <td>Body</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td class="highlight">0</td>
-                        </tr>
-                        <tr style="background:#000000; color:#ffffff; font-weight:bold">
-                            <td colspan="3">TOTAL ATOMS/CELL</td>
-                            <td id="total-atoms">1</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="sharing-box">
-                    <strong>🔑 Sharing Rules:</strong><br>
-                    • <strong>Corner atom:</strong> Shared by 8 cells → you get <strong>1/8</strong><br>
-                    • <strong>Face atom:</strong> Shared by 2 cells → you get <strong>1/2</strong><br>
-                    • <strong>Body atom:</strong> Only YOUR cell → you get <strong>1 whole</strong><br>
-                    <br>
-                    <strong>Memory:</strong> 8 corners meet at a point,<br>
-                    2 cells share a face,<br>
-                    1 cell owns the center.
-                </div>
-
-                <div class="info-box">
-                    <strong>Packing Efficiency:</strong><br>
-                    SC: <strong>52%</strong> | BCC: <strong>68%</strong> | FCC: <strong>74%</strong><br><br>
-                    <strong>Coordination #:</strong><br>
-                    SC: <strong>6</strong> | BCC: <strong>8</strong> | FCC: <strong>12</strong><br><br>
-                    <strong>Key Fact:</strong><br>
-                    BCC center atom prevents corners from touching!<br>
-                    FCC has ABC layer stacking (74% = maximum possible)
+                    <strong>Atom Counting:</strong><br>
+                    Corners: 8 × 1/8 = 1<br>
+                    Faces: <span id="cubic-faces">0</span> × 1/2 = <span id="cubic-face-total">0</span><br>
+                    Body: <span id="cubic-body">0</span> × 1 = <span id="cubic-body-total">0</span><br>
+                    <strong>TOTAL: <span id="cubic-total">1</span> atom/cell</strong>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label>3. MILLER PLANES</label>
-                <button onclick="showPlane('none')">Hide Plane</button>
-                <button onclick="showPlane('100')">(100) Plane</button>
-                <button onclick="showPlane('110')">(110) Plane</button>
-                <button onclick="showPlane('111')">(111) Plane</button>
+            <!-- DIRECTIONS TAB -->
+            <div id="directions-tab" style="display:none">
+                <div class="control-group">
+                    <label>1. DIRECTION PRESETS</label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+                        <button class="direction-btn" onclick="setDirection([1,0,0])">[100]</button>
+                        <button class="direction-btn" onclick="setDirection([0,1,0])">[010]</button>
+                        <button class="direction-btn" onclick="setDirection([0,0,1])">[001]</button>
+                        <button class="direction-btn" onclick="setDirection([1,1,0])">[110]</button>
+                        <button class="direction-btn" onclick="setDirection([1,1,1])">[111]</button>
+                        <button class="direction-btn" onclick="setDirection([1,-1,0])">[1̄10]</button>
+                        <button class="direction-btn" onclick="setDirection([-1,1,0])">[1̄10]</button>
+                        <button class="direction-btn" onclick="setDirection([2,1,2])">[212]</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>2. DIRECTION FAMILIES</label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+                        <button class="family-btn" onclick="showFamily('100')">⟨100⟩</button>
+                        <button class="family-btn" onclick="showFamily('110')">⟨110⟩</button>
+                        <button class="family-btn" onclick="showFamily('111')">⟨111⟩</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>3. CUSTOM DIRECTION</label>
+                    <div class="input-group">
+                        <span>[</span>
+                        <input type="text" id="dir-u" placeholder="u" value="1">
+                        <input type="text" id="dir-v" placeholder="v" value="0">
+                        <input type="text" id="dir-w" placeholder="w" value="0">
+                        <span>]</span>
+                    </div>
+                    <button onclick="setCustomDirection()">Draw [uvw]</button>
+                </div>
+
+                <div class="control-group">
+                    <label>4. OPTIONS</label>
+                    <div class="toggle-row">
+                        <span>Show Tail→Head Labels</span>
+                        <input type="checkbox" id="show-labels" checked onchange="updateScene()">
+                    </div>
+                    <div class="toggle-row">
+                        <span>Show Unit Cell</span>
+                        <input type="checkbox" id="show-cell" checked onchange="updateScene()">
+                    </div>
+                </div>
+
+                <div class="calc-box">
+                    <strong>How to Find [uvw]:</strong><br>
+                    <div class="calc-step">1. Identify <strong>Head</strong> (x₂,y₂,z₂) and <strong>Tail</strong> (x₁,y₁,z₁)</div>
+                    <div class="calc-step">2. Calculate: <span class="highlight">Head − Tail</span></div>
+                    <div class="calc-step">3. Clear fractions to smallest integers</div>
+                    <div class="calc-step">4. Enclose in <strong>square brackets [uvw]</strong></div>
+                </div>
+
+                <div class="calc-box">
+                    <strong>Current Direction: <span id="current-dir">[100]</span></strong><br>
+                    <div class="calc-step">Tail: <span id="dir-tail">(0,0,0)</span></div>
+                    <div class="calc-step">Head: <span id="dir-head">(1,0,0)</span></div>
+                    <div class="calc-step">Calculation: <span id="dir-calc">(1−0, 0−0, 0−0)</span></div>
+                    <div class="calc-step">Result: <span class="highlight" id="dir-result">[100]</span></div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Notation Summary:</strong>
+                    <table class="notation-table">
+                        <tr><th>Entity</th><th>Brackets</th><th>Example</th></tr>
+                        <tr><td>Point</td><td>(u,v,w)</td><td>(½,0,½)</td></tr>
+                        <tr><td>Direction</td><td>[uvw]</td><td>[110]</td></tr>
+                        <tr><td>Dir. Family</td><td>⟨uvw⟩</td><td>⟨100⟩</td></tr>
+                        <tr><td>Plane</td><td>(hkl)</td><td>(111)</td></tr>
+                        <tr><td>Negative</td><td>n̄ (overbar)</td><td>[1̄10]</td></tr>
+                    </table>
+                </div>
+
+                <div class="info-box">
+                    <strong>⚠️ Watch-outs:</strong><br>
+                    • Always <strong>Head − Tail</strong>, never reverse!<br>
+                    • Negative = <strong>overbar</strong> (1̄), not minus sign<br>
+                    • [uvw] = direction, (hkl) = plane<br>
+                    • Families ⟨uvw⟩ show symmetry-equivalent directions
+                </div>
             </div>
         </div>
     </div>
@@ -330,12 +358,14 @@
     <script>
         let scene, camera, renderer, controls;
         let currentTab = 'crystal';
+        let currentSystem = 'cubic';
+        let currentCentering = 'P';
         let currentCubicType = 'sc';
-        let currentPlane = 'none';
+        let currentDirection = [1, 0, 0];
+        let showFamily = false;
+        let familyType = '';
         let objects = [];
-        let planeMesh = null;
 
-        // Crystal system definitions
         const systems = {
             cubic: { a: 2, b: 2, c: 2, alpha: 90, beta: 90, gamma: 90, name: 'Cubic' },
             tetragonal: { a: 2, b: 2, c: 3, alpha: 90, beta: 90, gamma: 90, name: 'Tetragonal' },
@@ -356,12 +386,8 @@
             hexagonal: ['P']
         };
 
-        let currentSystem = 'cubic';
-        let currentCentering = 'P';
-
         function init() {
             const container = document.getElementById('canvas-container');
-            
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0xfafafa);
 
@@ -395,22 +421,17 @@
         function clearScene() {
             objects.forEach(obj => scene.remove(obj));
             objects = [];
-            if (planeMesh) {
-                scene.remove(planeMesh);
-                planeMesh = null;
-            }
         }
 
         function toRad(deg) { return deg * Math.PI / 180; }
 
         function createAtom(pos, color, radius) {
-            const geometry = new THREE.SphereGeometry(radius, 24, 24);
+            const geometry = new THREE.SphereGeometry(radius, 16, 16);
             const material = new THREE.MeshPhongMaterial({ color: color });
             const sphere = new THREE.Mesh(geometry, material);
             sphere.position.copy(pos);
             scene.add(sphere);
             objects.push(sphere);
-            return sphere;
         }
 
         function createLine(p1, p2, color, width = 2) {
@@ -421,237 +442,185 @@
             objects.push(line);
         }
 
-        function createLabel(text, pos) {
+        function createArrow(from, to, color) {
+            // Line
+            createLine(from, to, color, 3);
+            
+            // Arrowhead
+            const dir = new THREE.Vector3().subVectors(to, from).normalize();
+            const arrowPos = new THREE.Vector3().copy(to).addScaledVector(dir, -0.15);
+            const geometry = new THREE.ConeGeometry(0.08, 0.2, 8);
+            const material = new THREE.MeshPhongMaterial({ color: color });
+            const cone = new THREE.Mesh(geometry, material);
+            cone.position.copy(arrowPos);
+            cone.lookAt(to);
+            cone.rotateX(Math.PI / 2);
+            scene.add(cone);
+            objects.push(cone);
+        }
+
+        function createLabel(text, pos, size = 0.4) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = 128;
             canvas.height = 64;
             ctx.fillStyle = '#000000';
-            ctx.font = 'bold 28px Arial';
+            ctx.font = 'bold 24px Arial';
             ctx.textAlign = 'center';
             ctx.fillText(text, 64, 40);
             
             const texture = new THREE.CanvasTexture(canvas);
             const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
             sprite.position.copy(pos);
-            sprite.scale.set(0.6, 0.3, 1);
+            sprite.scale.set(size, size * 0.5, 1);
             scene.add(sprite);
             objects.push(sprite);
         }
 
-        // ========== CRYSTAL SYSTEMS MODE ==========
-        function getUnitCellVectors(sys) {
-            const a = sys.a, b = sys.b, c = sys.c;
-            const alpha = toRad(sys.alpha), beta = toRad(sys.beta), gamma = toRad(sys.gamma);
-
-            const ax = new THREE.Vector3(a, 0, 0);
-            const bx = b * Math.cos(gamma);
-            const by = b * Math.sin(gamma);
-            const ay = new THREE.Vector3(bx, by, 0);
-            const cx = c * Math.cos(beta);
-            const cy = c * (Math.cos(alpha) - Math.cos(beta)*Math.cos(gamma)) / Math.sin(gamma);
-            const cz = Math.sqrt(c*c - cx*cx - cy*cy);
-            const az = new THREE.Vector3(cx, cy, cz);
-
-            return { ax, ay, az };
+        // ========== DRAW FUNCTIONS ==========
+        function drawUnitCell(cellSize = 2) {
+            const hs = cellSize / 2;
+            const vertices = [
+                new THREE.Vector3(-hs, -hs, -hs), new THREE.Vector3(hs, -hs, -hs),
+                new THREE.Vector3(hs, hs, -hs), new THREE.Vector3(-hs, hs, -hs),
+                new THREE.Vector3(-hs, -hs, hs), new THREE.Vector3(hs, -hs, hs),
+                new THREE.Vector3(hs, hs, hs), new THREE.Vector3(-hs, hs, hs)
+            ];
+            const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+            edges.forEach(e => createLine(vertices[e[0]], vertices[e[1]], 0x666666, 1));
+            
+            // Axis labels
+            createLabel('X', new THREE.Vector3(hs + 0.3, -hs, -hs), 0.3);
+            createLabel('Y', new THREE.Vector3(-hs, hs + 0.3, -hs), 0.3);
+            createLabel('Z', new THREE.Vector3(-hs, -hs, hs + 0.3), 0.3);
         }
 
-        function getLatticePoints(centering) {
-            const points = [];
-            const corners = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
-            corners.forEach(c => points.push({u:c[0],v:c[1],w:c[2],type:'corner'}));
+        function drawDirection(dir, color = 0xcc0000, label = '') {
+            const cellSize = 2;
+            const hs = cellSize / 2;
+            const maxVal = Math.max(Math.abs(dir[0]), Math.abs(dir[1]), Math.abs(dir[2]), 1);
+            const scale = (hs * 0.8) / maxVal;
             
-            if (centering === 'I') points.push({u:0.5,v:0.5,w:0.5,type:'body'});
-            if (centering === 'F') {
-                points.push({u:0.5,v:0.5,w:0,type:'face'},{u:0.5,v:0,w:0.5,type:'face'},
-                    {u:0,v:0.5,w:0.5,type:'face'},{u:0.5,v:0.5,w:1,type:'face'},
-                    {u:0.5,v:1,w:0.5,type:'face'},{u:1,v:0.5,w:0.5,type:'face'});
+            const from = new THREE.Vector3(-hs * 0.3, -hs * 0.3, -hs * 0.3);
+            const to = new THREE.Vector3(
+                from.x + dir[0] * scale,
+                from.y + dir[1] * scale,
+                from.z + dir[2] * scale
+            );
+            
+            createArrow(from, to, color);
+            
+            if (label && document.getElementById('show-labels')?.checked) {
+                createLabel(label, new THREE.Vector3(to.x + 0.2, to.y + 0.2, to.z), 0.35);
             }
-            if (centering === 'C') {
-                points.push({u:0.5,v:0.5,w:0,type:'base'},{u:0.5,v:0.5,w:1,type:'base'});
-            }
-            return points;
+            
+            return { from, to };
         }
 
         function drawCrystalScene() {
             const sys = systems[currentSystem];
-            const vecs = getUnitCellVectors(sys);
-            const points = getLatticePoints(currentCentering);
-            const showBox = true;
-
-            // Draw box
-            if (showBox) {
-                const vertices = [];
-                for (let i = 0; i < 8; i++) {
-                    const u = (i & 1) ? 1 : 0, v = (i & 2) ? 1 : 0, w = (i & 4) ? 1 : 0;
-                    const pos = new THREE.Vector3()
-                        .addScaledVector(vecs.ax, u)
-                        .addScaledVector(vecs.ay, v)
-                        .addScaledVector(vecs.az, w);
-                    pos.x -= (vecs.ax.x + vecs.ay.x + vecs.az.x) / 2;
-                    pos.y -= (vecs.ay.y + vecs.az.y) / 2;
-                    pos.z -= vecs.az.z / 2;
-                    vertices.push(pos);
-                }
-                const edges = [[0,1],[1,3],[3,2],[2,0],[4,5],[5,7],[7,6],[6,4],[0,4],[1,5],[3,7],[2,6]];
-                edges.forEach(e => createLine(vertices[e[0]], vertices[e[1]], 0x666666));
-            }
-
-            // Draw atoms
-            points.forEach(pt => {
-                const pos = new THREE.Vector3()
-                    .addScaledVector(vecs.ax, pt.u)
-                    .addScaledVector(vecs.ay, pt.v)
-                    .addScaledVector(vecs.az, pt.w);
-                pos.x -= (vecs.ax.x + vecs.ay.x + vecs.az.x) / 2;
-                pos.y -= (vecs.ay.y + vecs.az.y) / 2;
-                pos.z -= vecs.az.z / 2;
-                
-                const color = (pt.type === 'body') ? 0x000000 : 0xcc0000;
-                createAtom(pos, color, 0.15);
-            });
+            const vecs = {
+                ax: new THREE.Vector3(sys.a, 0, 0),
+                ay: new THREE.Vector3(sys.b * Math.cos(toRad(sys.gamma)), sys.b * Math.sin(toRad(sys.gamma)), 0),
+                az: new THREE.Vector3(0, 0, sys.c)
+            };
+            
+            // Simplified for display
+            drawUnitCell(sys.a);
         }
 
-        // ========== CUBIC ANALYSIS MODE ==========
         function drawCubicScene() {
             const cellSize = 2.5;
-            const showSpaceFilling = document.getElementById('space-filling').checked;
-            const showSharing = document.getElementById('show-sharing').checked;
-            const showTouching = document.getElementById('show-touching').checked;
-            const showMulti = document.getElementById('show-multi').checked;
+            const showSpace = document.getElementById('space-filling')?.checked;
+            const radius = showSpace ? 0.4 : 0.15;
             
-            const radius = showSpaceFilling ? 0.5 : 0.2;
-            const reps = showMulti ? 2 : 1;
-            const offset = -cellSize * (reps - 1) / 2;
-
-            for (let ix = 0; ix < reps; ix++) {
-                for (let iy = 0; iy < reps; iy++) {
-                    for (let iz = 0; iz < reps; iz++) {
-                        const ox = offset + ix * cellSize;
-                        const oy = offset + iy * cellSize;
-                        const oz = offset + iz * cellSize;
-                        
-                        // Draw cell edges
-                        const vertices = [];
-                        for (let i = 0; i < 8; i++) {
-                            const x = ox + ((i & 1) ? cellSize : 0);
-                            const y = oy + ((i & 2) ? cellSize : 0);
-                            const z = oz + ((i & 4) ? cellSize : 0);
-                            vertices.push(new THREE.Vector3(x, y, z));
-                        }
-                        const edges = [[0,1],[1,3],[3,2],[2,0],[4,5],[5,7],[7,6],[6,4],[0,4],[1,5],[3,7],[2,6]];
-                        edges.forEach(e => createLine(vertices[e[0]], vertices[e[1]], 0x666666, 1));
-
-                        // Draw atoms
-                        const corners = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
-                        
-                        corners.forEach((c, i) => {
-                            const pos = new THREE.Vector3(
-                                ox + c[0] * cellSize,
-                                oy + c[1] * cellSize,
-                                oz + c[2] * cellSize
-                            );
-                            createAtom(pos, 0xcc0000, radius);
-                            
-                            if (showSharing && reps === 1) {
-                                createLabel('1/8', new THREE.Vector3(pos.x, pos.y + radius + 0.15, pos.z));
-                            }
-                        });
-
-                        if (currentCubicType === 'bcc' || currentCubicType === 'fcc') {
-                            // Body center
-                            const bodyPos = new THREE.Vector3(
-                                ox + cellSize/2,
-                                oy + cellSize/2,
-                                oz + cellSize/2
-                            );
-                            
-                            if (currentCubicType === 'bcc') {
-                                createAtom(bodyPos, 0x000000, radius);
-                                if (showSharing && reps === 1) {
-                                    createLabel('1', new THREE.Vector3(bodyPos.x, bodyPos.y + radius + 0.2, bodyPos.z));
-                                }
-                                
-                                // Show touching lines (center to corners)
-                                if (showTouching) {
-                                    corners.forEach(c => {
-                                        const cornerPos = new THREE.Vector3(
-                                            ox + c[0] * cellSize,
-                                            oy + c[1] * cellSize,
-                                            oz + c[2] * cellSize
-                                        );
-                                        createLine(bodyPos, cornerPos, 0xcc0000, 1);
-                                    });
-                                }
-                            }
-                            
-                            if (currentCubicType === 'fcc') {
-                                const faces = [
-                                    [0.5,0.5,0],[0.5,0,0.5],[0,0.5,0.5],
-                                    [0.5,0.5,1],[0.5,1,0.5],[1,0.5,0.5]
-                                ];
-                                faces.forEach(f => {
-                                    const facePos = new THREE.Vector3(
-                                        ox + f[0] * cellSize,
-                                        oy + f[1] * cellSize,
-                                        oz + f[2] * cellSize
-                                    );
-                                    createAtom(facePos, 0x000000, radius);
-                                    
-                                    if (showSharing && reps === 1) {
-                                        createLabel('1/2', new THREE.Vector3(facePos.x, facePos.y + radius + 0.15, facePos.z));
-                                    }
-                                });
-                            }
-                        }
-                    }
-                }
+            drawUnitCell(cellSize);
+            
+            const hs = cellSize / 2;
+            const corners = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
+            
+            corners.forEach(c => {
+                createAtom(new THREE.Vector3(c[0]*hs, c[1]*hs, c[2]*hs), 0xcc0000, radius);
+            });
+            
+            if (currentCubicType === 'bcc') {
+                createAtom(new THREE.Vector3(0, 0, 0), 0x000000, radius);
+            } else if (currentCubicType === 'fcc') {
+                [[0,0,1],[0,0,-1],[0,1,0],[0,-1,0],[1,0,0],[-1,0,0]].forEach(f => {
+                    createAtom(new THREE.Vector3(f[0]*hs, f[1]*hs, f[2]*hs), 0x000000, radius);
+                });
             }
+        }
+
+        function drawDirectionsScene() {
+            const cellSize = 2.5;
+            
+            if (document.getElementById('show-cell')?.checked) {
+                drawUnitCell(cellSize);
+            }
+            
+            if (showFamily) {
+                const colors = [0xcc0000, 0x000000, 0x666666, 0xcc0000, 0x000000, 0x666666];
+                let dirs = [];
+                
+                if (familyType === '100') {
+                    dirs = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+                } else if (familyType === '110') {
+                    dirs = [[1,1,0],[1,-1,0],[-1,1,0],[-1,-1,0],[1,0,1],[1,0,-1],[-1,0,1],[-1,0,-1],[0,1,1],[0,1,-1],[0,-1,1],[0,-1,-1]];
+                } else if (familyType === '111') {
+                    dirs = [[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]];
+                }
+                
+                dirs.forEach((dir, i) => {
+                    const color = colors[i % colors.length];
+                    const label = `[${dir[0]}${dir[1]}${dir[2]}]`;
+                    drawDirection(dir, color, label);
+                });
+            } else {
+                const dir = currentDirection;
+                const label = `[${dir[0]}${dir[1]}${dir[2]}]`;
+                drawDirection(dir, 0xcc0000, label);
+                
+                // Update calculation display
+                updateDirectionCalc(dir);
+            }
+        }
+
+        function updateDirectionCalc(dir) {
+            const tail = [0, 0, 0];
+            const head = dir;
+            
+            document.getElementById('current-dir').textContent = 
+                `[${dir[0]}${dir[1]}${dir[2]}]`;
+            document.getElementById('dir-tail').textContent = 
+                `(${tail[0]},${tail[1]},${tail[2]})`;
+            document.getElementById('dir-head').textContent = 
+                `(${head[0]},${head[1]},${head[2]})`;
+            document.getElementById('dir-calc').textContent = 
+                `(${head[0]}−${tail[0]}, ${head[1]}−${tail[1]}, ${head[2]}−${tail[2]})`;
+            document.getElementById('dir-result').textContent = 
+                `[${dir[0]}${dir[1]}${dir[2]}]`;
         }
 
         function updateScene() {
             clearScene();
+            
             if (currentTab === 'crystal') {
                 drawCrystalScene();
-            } else {
+            } else if (currentTab === 'cubic') {
                 drawCubicScene();
+            } else if (currentTab === 'directions') {
+                drawDirectionsScene();
             }
-            
-            if (currentPlane !== 'none') {
-                drawMillerPlane();
-            }
-        }
-
-        function drawMillerPlane() {
-            const planeSize = 3;
-            const geometry = new THREE.PlaneGeometry(planeSize, planeSize);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0xcc0000,
-                transparent: true,
-                opacity: 0.2,
-                side: THREE.DoubleSide
-            });
-            planeMesh = new THREE.Mesh(geometry, material);
-            
-            if (currentPlane === '100') {
-                planeMesh.position.set(1.25, 0, 0);
-                planeMesh.rotation.y = Math.PI / 2;
-            } else if (currentPlane === '110') {
-                planeMesh.position.set(0, 0, 0);
-                planeMesh.rotation.z = Math.PI / 4;
-            } else if (currentPlane === '111') {
-                planeMesh.position.set(0.8, 0.8, 0.8);
-                planeMesh.lookAt(new THREE.Vector3(0,0,0));
-            }
-            
-            scene.add(planeMesh);
         }
 
         // ========== UI FUNCTIONS ==========
         function showTab(tab) {
             currentTab = tab;
+            showFamily = false;
             document.getElementById('crystal-tab').style.display = tab === 'crystal' ? 'block' : 'none';
             document.getElementById('cubic-tab').style.display = tab === 'cubic' ? 'block' : 'none';
+            document.getElementById('directions-tab').style.display = tab === 'directions' ? 'block' : 'none';
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             updateScene();
@@ -664,10 +633,6 @@
             
             document.getElementById('current-system').textContent = systems[system].name;
             document.getElementById('current-centering').textContent = currentCentering;
-            document.getElementById('param-abc').textContent = 
-                `${systems[system].a},${systems[system].b},${systems[system].c}`;
-            document.getElementById('param-angles').textContent = 
-                `${systems[system].alpha}°,${systems[system].beta}°,${systems[system].gamma}°`;
             
             const names = {'P':'Primitive','I':'Body-Centered','F':'Face-Centered','C':'Base-Centered'};
             document.getElementById('bravais-name').textContent = 
@@ -693,45 +658,49 @@
 
         function setCubicType(type) {
             currentCubicType = type;
-            document.querySelectorAll('.cubic-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-' + type).classList.add('active');
+            const faces = type === 'fcc' ? 6 : 0;
+            const body = type === 'bcc' ? 1 : 0;
+            const total = type === 'sc' ? 1 : type === 'bcc' ? 2 : 4;
             
-            const names = {sc: 'Simple Cubic', bcc: 'Body-Centered Cubic', fcc: 'Face-Centered Cubic'};
-            document.getElementById('cubic-type-name').textContent = names[type];
-            
-            // Update counting table
-            if (type === 'sc') {
-                document.getElementById('row-corners').innerHTML = '<td>Corners</td><td>8</td><td>1/8</td><td class="highlight">1</td>';
-                document.getElementById('row-faces').innerHTML = '<td>Faces</td><td>0</td><td>1/2</td><td class="highlight">0</td>';
-                document.getElementById('row-body').innerHTML = '<td>Body</td><td>0</td><td>1</td><td class="highlight">0</td>';
-                document.getElementById('total-atoms').textContent = '1';
-            } else if (type === 'bcc') {
-                document.getElementById('row-corners').innerHTML = '<td>Corners</td><td>8</td><td>1/8</td><td class="highlight">1</td>';
-                document.getElementById('row-faces').innerHTML = '<td>Faces</td><td>0</td><td>1/2</td><td class="highlight">0</td>';
-                document.getElementById('row-body').innerHTML = '<td>Body</td><td>1</td><td>1</td><td class="highlight">1</td>';
-                document.getElementById('total-atoms').textContent = '2';
-            } else if (type === 'fcc') {
-                document.getElementById('row-corners').innerHTML = '<td>Corners</td><td>8</td><td>1/8</td><td class="highlight">1</td>';
-                document.getElementById('row-faces').innerHTML = '<td>Faces</td><td>6</td><td>1/2</td><td class="highlight">3</td>';
-                document.getElementById('row-body').innerHTML = '<td>Body</td><td>0</td><td>1</td><td class="highlight">0</td>';
-                document.getElementById('total-atoms').textContent = '4';
-            }
+            document.getElementById('cubic-faces').textContent = faces;
+            document.getElementById('cubic-face-total').textContent = faces * 0.5;
+            document.getElementById('cubic-body').textContent = body;
+            document.getElementById('cubic-body-total').textContent = body;
+            document.getElementById('cubic-total').textContent = total;
             
             updateScene();
         }
 
-        function updateCubicScene() {
+        function setDirection(dir) {
+            currentDirection = dir;
+            showFamily = false;
             updateScene();
         }
 
-        function showPlane(plane) {
-            currentPlane = plane;
+        function showFamily(fam) {
+            familyType = fam;
+            showFamily = true;
             updateScene();
         }
+
+        function setCustomDirection() {
+            const u = parseInt(document.getElementById('dir-u').value) || 0;
+            const v = parseInt(document.getElementById('dir-v').value) || 0;
+            const w = parseInt(document.getElementById('dir-w').value) || 0;
+            setDirection([u, v, w]);
+        }
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('canvas-container');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
 
         // Init
         init();
-        setCubicType('sc');
+        setCrystalSystem('cubic');
     </script>
 </body>
 </html>
