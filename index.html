@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crystal Lattice Playground</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            overflow: hidden;
+        }
+        #container {
+            display: flex;
+            height: 100vh;
+        }
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            background: #fafafa;
+        }
+        #sidebar {
+            width: 340px;
+            background: #ffffff;
+            border-left: 2px solid #000000;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        h1 {
+            font-size: 16px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 6px;
+            margin-bottom: 5px;
+        }
+        h2 {
+            font-size: 13px;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            color: #cc0000;
+        }
+        .control-group {
+            border: 1px solid #000000;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+        .control-group label {
+            display: block;
+            font-size: 11px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 4px;
+            border: 2px solid #000000;
+            background: #ffffff;
+            color: #000000;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #000000;
+            color: #ffffff;
+        }
+        button.active {
+            background: #cc0000;
+            color: #ffffff;
+            border-color: #cc0000;
+        }
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .toggle-row span {
+            font-size: 11px;
+        }
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #cc0000;
+            cursor: pointer;
+        }
+        .info-box {
+            background: #f0f0f0;
+            border: 1px solid #000000;
+            padding: 8px;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        .info-box strong {
+            color: #cc0000;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            font-size: 10px;
+        }
+        .stat-item {
+            border: 1px solid #000000;
+            padding: 4px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #cc0000;
+        }
+        #axis-labels {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.9);
+            padding: 8px;
+            border: 2px solid #000000;
+        }
+        .slider-group {
+            margin-bottom: 8px;
+        }
+        .slider-group label {
+            font-size: 10px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        input[type="range"] {
+            width: 100%;
+            accent-color: #cc0000;
+        }
+        .param-table {
+            width: 100%;
+            font-size: 10px;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+        .param-table td {
+            border: 1px solid #000000;
+            padding: 3px;
+            text-align: center;
+        }
+        .param-table td:first-child {
+            font-weight: bold;
+            background: #e0e0e0;
+        }
+        .sys-btn {
+            font-size: 10px;
+            padding: 6px;
+        }
+        .bravais-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+        }
+        .bravais-btns button {
+            font-size: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="canvas-container">
+            <div id="axis-labels">
+                <span style="color:#cc0000">●</span> Atom &nbsp;&nbsp;
+                <span style="color:#000000">●</span> Lattice &nbsp;&nbsp;
+                <span style="color:#666666">━</span> Cell Edge &nbsp;&nbsp;
+                <span style="color:#cc0000">▭</span> Plane
+            </div>
+        </div>
+        <div id="sidebar">
+            <h1>🔬 LATTICE PLAYGROUND</h1>
+            
+            <div class="control-group">
+                <label>1. CRYSTAL SYSTEM (7 Types)</label>
+                <button class="sys-btn" id="btn-cubic" onclick="setCrystalSystem('cubic')">1. Cubic (a=b=c, 90°)</button>
+                <button class="sys-btn" id="btn-tetragonal" onclick="setCrystalSystem('tetragonal')">2. Tetragonal (a=b≠c, 90°)</button>
+                <button class="sys-btn" id="btn-orthorhombic" onclick="setCrystalSystem('orthorhombic')">3. Orthorhombic (a≠b≠c, 90°)</button>
+                <button class="sys-btn" id="btn-rhombohedral" onclick="setCrystalSystem('rhombohedral')">4. Rhombohedral (a=b=c, ≠90°)</button>
+                <button class="sys-btn" id="btn-hexagonal" onclick="setCrystalSystem('hexagonal')">5. Hexagonal (a=b≠c, γ=120°)</button>
+                <button class="sys-btn" id="btn-monoclinic" onclick="setCrystalSystem('monoclinic')">6. Monoclinic (a≠b≠c, β≠90°)</button>
+                <button class="sys-btn" id="btn-triclinic" onclick="setCrystalSystem('triclinic')">7. Triclinic (all different)</button>
+            </div>
+
+            <div class="control-group">
+                <label>2. BRAVAIS CENTERING</label>
+                <div class="bravais-btns">
+                    <button id="btn-P" onclick="setCentering('P')">P (Primitive)</button>
+                    <button id="btn-I" onclick="setCentering('I')">I (Body)</button>
+                    <button id="btn-F" onclick="setCentering('F')">F (Face)</button>
+                    <button id="btn-C" onclick="setCentering('C')">C (Base)</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>3. LATTICE TYPE PRESETS</label>
+                <button onclick="setPreset('sc')">Simple Cubic (P+Cubic)</button>
+                <button onclick="setPreset('bcc')">Body-Centered Cubic (I+Cubic)</button>
+                <button onclick="setPreset('fcc')">Face-Centered Cubic (F+Cubic)</button>
+                <button onclick="setPreset('bct')">Body-Centered Tetragonal</button>
+                <button onclick="setPreset('fcc_ortho')">Face-Centered Orthorhombic</button>
+            </div>
+
+            <div class="control-group">
+                <label>4. DISPLAY OPTIONS</label>
+                <div class="toggle-row">
+                    <span>Show Atoms</span>
+                    <input type="checkbox" id="show-atoms" checked onchange="updateScene()">
+                </div>
+                <div class="toggle-row">
+                    <span>Show Lattice Points</span>
+                    <input type="checkbox" id="show-lattice" onchange="updateScene()">
+                </div>
+                <div class="toggle-row">
+                    <span>Show Unit Cell Box</span>
+                    <input type="checkbox" id="show-box" checked onchange="updateScene()">
+                </div>
+                <div class="toggle-row">
+                    <span>Wireframe Mode</span>
+                    <input type="checkbox" id="wireframe" onchange="updateScene()">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>5. MILLER PLANES (hkl)</label>
+                <button onclick="showPlane('none')">Hide Plane</button>
+                <button onclick="showPlane('100')">(100) Plane</button>
+                <button onclick="showPlane('110')">(110) Plane</button>
+                <button onclick="showPlane('111')">(111) Plane</button>
+            </div>
+
+            <div class="info-box">
+                <strong>Current: <span id="current-system">Cubic</span> + <span id="current-centering">P</span></strong><br><br>
+                <table class="param-table">
+                    <tr><td>a, b, c</td><td id="param-abc">2, 2, 2</td></tr>
+                    <tr><td>α, β, γ</td><td id="param-angles">90°, 90°, 90°</td></tr>
+                </table>
+                <br>
+                <strong>Bravais Lattice: <span id="bravais-name">Simple Cubic</span></strong><br>
+                <strong>Atoms/Cell: <span id="atoms-per-cell">1</span></strong>
+            </div>
+
+            <div class="info-box">
+                <strong>Centering Rules:</strong><br>
+                • <strong>P</strong>: Corners only = 1 atom/cell<br>
+                • <strong>I</strong>: + body center = 2 atoms/cell<br>
+                • <strong>F</strong>: + 6 face centers = 4 atoms/cell<br>
+                • <strong>C</strong>: + 2 base faces = 2 atoms/cell<br>
+                <br>
+                <strong>Only 14 Bravais lattices exist!</strong><br>
+                Not all 7×4=28 combinations are geometrically unique.
+            </div>
+
+            <div class="info-box">
+                <strong>Navigation:</strong><br>
+                • Left click + drag = Rotate<br>
+                • Right click + drag = Pan<br>
+                • Scroll = Zoom<br>
+                <br>
+                <strong>Colors:</strong><br>
+                • Red = Atoms / Planes<br>
+                • Black = Lattice points / Text<br>
+                • Grey = Unit cell edges
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let scene, camera, renderer, controls;
+        let currentSystem = 'cubic';
+        let currentCentering = 'P';
+        let currentPlane = 'none';
+        let objects = [];
+        let planeMesh = null;
+        let labelSprites = [];
+
+        // Crystal system definitions
+        const systems = {
+            cubic: { a: 2, b: 2, c: 2, alpha: 90, beta: 90, gamma: 90, name: 'Cubic' },
+            tetragonal: { a: 2, b: 2, c: 3, alpha: 90, beta: 90, gamma: 90, name: 'Tetragonal' },
+            orthorhombic: { a: 2, b: 2.5, c: 3, alpha: 90, beta: 90, gamma: 90, name: 'Orthorhombic' },
+            rhombohedral: { a: 2, b: 2, c: 2, alpha: 70, beta: 70, gamma: 70, name: 'Rhombohedral' },
+            hexagonal: { a: 2, b: 2, c: 2.5, alpha: 90, beta: 90, gamma: 120, name: 'Hexagonal' },
+            monoclinic: { a: 2, b: 2.5, c: 3, alpha: 90, beta: 100, gamma: 90, name: 'Monoclinic' },
+            triclinic: { a: 2, b: 2.5, c: 3, alpha: 80, beta: 100, gamma: 70, name: 'Triclinic' }
+        };
+
+        // Valid Bravais combinations
+        const validBravais = {
+            cubic: ['P', 'I', 'F'],
+            tetragonal: ['P', 'I'],
+            orthorhombic: ['P', 'I', 'F', 'C'],
+            monoclinic: ['P', 'C'],
+            triclinic: ['P'],
+            rhombohedral: ['P'],
+            hexagonal: ['P']
+        };
+
+        function init() {
+            const container = document.getElementById('canvas-container');
+            
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xfafafa);
+
+            camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(6, 5, 7);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(5, 10, 7);
+            scene.add(directionalLight);
+
+            updateScene();
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function clearScene() {
+            objects.forEach(obj => scene.remove(obj));
+            objects = [];
+            labelSprites.forEach(sprite => scene.remove(sprite));
+            labelSprites = [];
+            if (planeMesh) {
+                scene.remove(planeMesh);
+                planeMesh = null;
+            }
+        }
+
+        function toRad(deg) { return deg * Math.PI / 180; }
+
+        function getUnitCellVectors(sys) {
+            const a = sys.a;
+            const b = sys.b;
+            const c = sys.c;
+            const alpha = toRad(sys.alpha);
+            const beta = toRad(sys.beta);
+            const gamma = toRad(sys.gamma);
+
+            // Unit cell vectors
+            const ax = new THREE.Vector3(a, 0, 0);
+            
+            const bx = b * Math.cos(gamma);
+            const by = b * Math.sin(gamma);
+            const ay = new THREE.Vector3(bx, by, 0);
+            
+            const cx = c * Math.cos(beta);
+            const cy = c * (Math.cos(alpha) - Math.cos(beta) * Math.cos(gamma)) / Math.sin(gamma);
+            const cz = Math.sqrt(c*c - cx*cx - cy*cy);
+            const az = new THREE.Vector3(cx, cy, cz);
+
+            return { ax, ay, az };
+        }
+
+        function createAtom(pos, color, radius = 0.15) {
+            const geometry = new THREE.SphereGeometry(radius, 24, 24);
+            const material = new THREE.MeshPhongMaterial({
+                color: color,
+                wireframe: document.getElementById('wireframe').checked
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            sphere.position.copy(pos);
+            scene.add(sphere);
+            objects.push(sphere);
+        }
+
+        function createLine(p1, p2, color, width = 1) {
+            const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+            const material = new THREE.LineBasicMaterial({ color: color, linewidth: width });
+            const line = new THREE.Line(geometry, material);
+            scene.add(line);
+            objects.push(line);
+        }
+
+        function getLatticePoints(centering) {
+            const points = [];
+            
+            // Corners (always present)
+            const corners = [
+                [0,0,0], [1,0,0], [1,1,0], [0,1,0],
+                [0,0,1], [1,0,1], [1,1,1], [0,1,1]
+            ];
+            corners.forEach(c => points.push({ u: c[0], v: c[1], w: c[2], type: 'corner' }));
+
+            if (centering === 'I') {
+                points.push({ u: 0.5, v: 0.5, w: 0.5, type: 'body' });
+            }
+            
+            if (centering === 'F') {
+                points.push(
+                    { u: 0.5, v: 0.5, w: 0, type: 'face' },
+                    { u: 0.5, v: 0, w: 0.5, type: 'face' },
+                    { u: 0, v: 0.5, w: 0.5, type: 'face' },
+                    { u: 0.5, v: 0.5, w: 1, type: 'face' },
+                    { u: 0.5, v: 1, w: 0.5, type: 'face' },
+                    { u: 1, v: 0.5, w: 0.5, type: 'face' }
+                );
+            }
+            
+            if (centering === 'C') {
+                points.push(
+                    { u: 0.5, v: 0.5, w: 0, type: 'base' },
+                    { u: 0.5, v: 0.5, w: 1, type: 'base' }
+                );
+            }
+
+            return points;
+        }
+
+        function updateScene() {
+            clearScene();
+            
+            const showAtoms = document.getElementById('show-atoms').checked;
+            const showLattice = document.getElementById('show-lattice').checked;
+            const showBox = document.getElementById('show-box').checked;
+
+            const sys = systems[currentSystem];
+            const vecs = getUnitCellVectors(sys);
+            const points = getLatticePoints(currentCentering);
+
+            // Draw unit cell edges
+            if (showBox) {
+                const origin = new THREE.Vector3(-vecs.ax.x/2, -vecs.ay.y/2, -vecs.az.z/2);
+                
+                // Calculate all 8 vertices
+                const vertices = [];
+                for (let i = 0; i < 8; i++) {
+                    const u = (i & 1) ? 1 : 0;
+                    const v = (i & 2) ? 1 : 0;
+                    const w = (i & 4) ? 1 : 0;
+                    
+                    const pos = new THREE.Vector3()
+                        .addScaledVector(vecs.ax, u)
+                        .addScaledVector(vecs.ay, v)
+                        .addScaledVector(vecs.az, w);
+                    
+                    // Center the cell
+                    pos.x -= (vecs.ax.x + vecs.ay.x + vecs.az.x) / 2;
+                    pos.y -= (vecs.ay.y + vecs.az.y) / 2;
+                    pos.z -= vecs.az.z / 2;
+                    
+                    vertices.push(pos);
+                }
+
+                // Draw edges
+                const edges = [
+                    [0,1], [1,3], [3,2], [2,0], // bottom
+                    [4,5], [5,7], [7,6], [6,4], // top
+                    [0,4], [1,5], [3,7], [2,6]  // vertical
+                ];
+                
+                edges.forEach(e => {
+                    createLine(vertices[e[0]], vertices[e[1]], 0x666666, 2);
+                });
+            }
+
+            // Draw atoms/lattice points
+            points.forEach(pt => {
+                const pos = new THREE.Vector3()
+                    .addScaledVector(vecs.ax, pt.u)
+                    .addScaledVector(vecs.ay, pt.v)
+                    .addScaledVector(vecs.az, pt.w);
+                
+                // Center
+                pos.x -= (vecs.ax.x + vecs.ay.x + vecs.az.x) / 2;
+                pos.y -= (vecs.ay.y + vecs.az.y) / 2;
+                pos.z -= vecs.az.z / 2;
+
+                if (showAtoms) {
+                    const color = (pt.type === 'body') ? 0x000000 : 0xcc0000;
+                    createAtom(pos, color, 0.2);
+                }
+                
+                if (showLattice) {
+                    createAtom(pos, 0x000000, 0.06);
+                }
+            });
+
+            // Draw Miller plane
+            if (currentPlane !== 'none') {
+                drawMillerPlane(vecs, currentPlane);
+            }
+
+            updateStats();
+        }
+
+        function drawMillerPlane(vecs, plane) {
+            const planeSize = 2.5;
+            const geometry = new THREE.PlaneGeometry(planeSize, planeSize);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0xcc0000,
+                transparent: true,
+                opacity: 0.25,
+                side: THREE.DoubleSide
+            });
+            planeMesh = new THREE.Mesh(geometry, material);
+            
+            // Position plane based on Miller indices
+            const center = new THREE.Vector3(
+                (vecs.ax.x + vecs.ay.x + vecs.az.x) / 4,
+                (vecs.ay.y + vecs.az.y) / 4,
+                vecs.az.z / 4
+            );
+            
+            if (plane === '100') {
+                planeMesh.position.set(center.x + vecs.ax.x/2, center.y, center.z);
+                planeMesh.lookAt(new THREE.Vector3(center.x + vecs.ax.x, center.y, center.z));
+            } else if (plane === '110') {
+                planeMesh.position.set(center.x, center.y + vecs.ay.y/2, center.z);
+                planeMesh.rotation.z = Math.PI / 4;
+            } else if (plane === '111') {
+                planeMesh.position.copy(center);
+                planeMesh.lookAt(new THREE.Vector3(0,0,0));
+            }
+            
+            scene.add(planeMesh);
+        }
+
+        function updateStats() {
+            const sys = systems[currentSystem];
+            const valid = validBravais[currentSystem];
+            
+            document.getElementById('current-system').textContent = sys.name;
+            document.getElementById('current-centering').textContent = currentCentering;
+            document.getElementById('param-abc').textContent = 
+                `${sys.a.toFixed(1)}, ${sys.b.toFixed(1)}, ${sys.c.toFixed(1)}`;
+            document.getElementById('param-angles').textContent = 
+                `${sys.alpha}°, ${sys.beta}°, ${sys.gamma}°`;
+
+            // Bravais name
+            const centeringNames = { 'P': 'Primitive', 'I': 'Body-Centered', 'F': 'Face-Centered', 'C': 'Base-Centered' };
+            document.getElementById('bravais-name').textContent = 
+                valid.includes(currentCentering) 
+                    ? `${centeringNames[currentCentering]} ${sys.name}`
+                    : `${sys.name} + ${currentCentering} (Invalid!)`;
+
+            // Atoms per cell
+            let atomsPerCell = 1; // P
+            if (currentCentering === 'I') atomsPerCell = 2;
+            else if (currentCentering === 'F') atomsPerCell = 4;
+            else if (currentCentering === 'C') atomsPerCell = 2;
+            
+            document.getElementById('atoms-per-cell').textContent = atomsPerCell;
+
+            // Update button states
+            document.querySelectorAll('.bravais-btns button').forEach(btn => {
+                const type = btn.id.replace('btn-', '');
+                if (valid.includes(type)) {
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'auto';
+                } else {
+                    btn.style.opacity = '0.3';
+                    btn.style.pointerEvents = 'none';
+                }
+                btn.classList.toggle('active', type === currentCentering);
+            });
+        }
+
+        function setCrystalSystem(system) {
+            currentSystem = system;
+            
+            // Reset to valid centering if current is invalid
+            const valid = validBravais[system];
+            if (!valid.includes(currentCentering)) {
+                currentCentering = valid[0];
+            }
+            
+            document.querySelectorAll('.sys-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('btn-' + system).classList.add('active');
+            
+            updateScene();
+        }
+
+        function setCentering(centering) {
+            const valid = validBravais[currentSystem];
+            if (!valid.includes(centering)) {
+                alert(`${centering} centering is not valid for ${systems[currentSystem].name} system!\n\nValid options: ${valid.join(', ')}`);
+                return;
+            }
+            currentCentering = centering;
+            updateScene();
+        }
+
+        function setPreset(name) {
+            const presets = {
+                sc: { system: 'cubic', centering: 'P' },
+                bcc: { system: 'cubic', centering: 'I' },
+                fcc: { system: 'cubic', centering: 'F' },
+                bct: { system: 'tetragonal', centering: 'I' },
+                fcc_ortho: { system: 'orthorhombic', centering: 'F' }
+            };
+            
+            const preset = presets[name];
+            if (preset) {
+                currentSystem = preset.system;
+                currentCentering = preset.centering;
+                
+                document.querySelectorAll('.sys-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('btn-' + preset.system).classList.add('active');
+                
+                updateScene();
+            }
+        }
+
+        function showPlane(plane) {
+            currentPlane = plane;
+            updateScene();
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('canvas-container');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        // Initialize
+        init();
+        setCrystalSystem('cubic');
+    </script>
+</body>
+</html>
